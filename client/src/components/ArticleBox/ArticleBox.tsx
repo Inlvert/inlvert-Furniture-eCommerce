@@ -1,16 +1,18 @@
 "use client";
 
+import Button from "../Button/Button";
 import styles from "./ArticleBox.module.scss";
 
 export default function ArticleBox() {
   return (
     <div className={styles.box}>
-      <h2 className={`${styles.text1} text-red-600`}>New Arrival</h2>
-      <h1 className="text-4xl font-bold">Luxury Sofa Collection</h1>
-      <p className="mt-4 text-gray-700">
-        Discover our exclusive new line of modern furniture that redefines
-        comfort.
+      <h2 className={`${styles.text1}`}>New Arrival</h2>
+      <h3 className={`${styles.text2}`}>Discover Our <br /> New Collection </h3>
+      <p className={`${styles.text3}`}>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br /> Odio
+        accusamus possimus quam id cumque, labore,
       </p>
+      <Button text={"BUY NOW"}/>
     </div>
   );
 }

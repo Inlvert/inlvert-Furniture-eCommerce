@@ -1,3 +1,5 @@
+
+
 .box {
   background-color: #FFF3E3;
   color: black;
@@ -10,6 +12,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  padding: 60 40;
   
 
   @media (max-width: 1000px) {
@@ -27,6 +30,20 @@
 
 .text1 {
   font-size: 1.5rem;
-  padding: 20px 20px;
+  color: black;
+  font-weight: 600;
+}
+
+.text2 {
+  font-size: 3rem;
+  color: #B88E2F;
+  font-weight: 700;
   
+}
+
+.text3 {
+  font-size: 1rem;
+  color: black;
+  font-weight: 700;
+  padding: 20 0 40;
 }
