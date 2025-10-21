@@ -1,15 +1,17 @@
-import Navbar from "@/components/Navbar";
+import ArticleBox from "@/components/ArticleBox/ArticleBox";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
   return (
-    <div className="flex justify-center">
-      <Navbar></Navbar>
-      {/* <div className="h-[812px] flex items-center justify-center"> */}
-      <div>
+    <div className="flex items-center  flex-col">
+      <Navbar />
+      <div className="relative flex flex-col justify-center">
         <img
           src="/images/scandinavian-interior-mockup-wall-decal-background 1home_bg.png"
           alt=""
+          className="w-full max-w-[1440px] h-auto"
         />
+        <ArticleBox />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 
 function Login() {
   return (
-    <div>
+    <div className="flex justify-center">
       <Navbar />
     </div>
   )
