@@ -1,4 +1,5 @@
 import ArticleBox from "@/components/ArticleBox/ArticleBox";
+import BrowseTheRange from "@/components/BrowseTheRange/BrowseTheRange";
 import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
         />
         <ArticleBox />
       </div>
+      <BrowseTheRange />
     </div>
   );
 }
