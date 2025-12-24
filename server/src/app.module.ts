@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ProductsController } from './products/products.controller';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -18,8 +20,9 @@ import { MongooseModule } from '@nestjs/mongoose';
         uri: configService.get<string>('DB_CONNECTION'),
       }),
     }),
+    ProductsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, ProductsController],
   providers: [AppService],
 })
 export class AppModule {}
