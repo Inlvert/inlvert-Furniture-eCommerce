@@ -14,7 +14,16 @@ export class ProductsService {
     createProductDto: CreateProductDto,
     files: Express.Multer.File[],
   ): Promise<ProductDocument> {
-    const newProduct = new this.productModel({...createProductDto, images: files.map(file => file.filename)});
+    const newProduct = new this.productModel({
+      ...createProductDto,
+      images: files.map((file) => file.filename),
+    });
     return newProduct.save();
+  }
+
+  async findAll(): Promise<ProductDocument[]> {
+    const products = await this.productModel.find().exec();
+
+    return products;
   }
 }

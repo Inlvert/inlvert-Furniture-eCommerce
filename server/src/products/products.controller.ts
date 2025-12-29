@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UploadedFiles,
   UseInterceptors,
@@ -24,5 +25,10 @@ export class ProductsController {
     console.log('Creating product with data:', createProductDto);
     console.log('Uploaded files:', files);
     return this.productsService.create(createProductDto, files);
+  }
+
+  @Get()
+  findAll(): Promise<ProductDocument[]> {
+    return this.productsService.findAll();
   }
 }
