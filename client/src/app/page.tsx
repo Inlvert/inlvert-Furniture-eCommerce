@@ -1,6 +1,7 @@
 import ArticleBox from "@/components/ArticleBox/ArticleBox";
 import BrowseTheRange from "@/components/BrowseTheRange/BrowseTheRange";
 import Navbar from "@/components/Navbar/Navbar";
+import ProductList from "@/components/ProductList/ProductList";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <ArticleBox />
       </div>
       <BrowseTheRange />
+      <ProductList />
     </div>
   );
 }
