@@ -7,7 +7,8 @@ const storage = multer.diskStorage({
     cb(null, path.resolve(__dirname, '..', '..', 'public', 'images'));
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const safeName = file.originalname.replace(/\s+/g, '_');
+    cb(null, `${Date.now()}-${safeName}`);
   },
 });
 
