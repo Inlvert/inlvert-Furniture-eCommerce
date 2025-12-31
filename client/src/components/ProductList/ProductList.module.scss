@@ -1,12 +1,8 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 20px;
-  border: solid;
-  border-color: #ff1515;
+  background: white;
 }
 
 .title {
@@ -14,5 +10,28 @@
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
-  color: #000;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .productsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .productsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .productsGrid {
+    grid-template-columns: 1fr;
+  }
 }
