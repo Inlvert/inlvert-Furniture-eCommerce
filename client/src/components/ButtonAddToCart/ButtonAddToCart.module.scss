@@ -1,0 +1,26 @@
+.btn {
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: none;
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.15s ease,
+    background 0.2s ease;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  }
+}
