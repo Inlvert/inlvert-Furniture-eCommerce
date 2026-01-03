@@ -1,10 +1,46 @@
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  /* 🔥 Overlay на всю картку */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+.addToCartWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 🔥 ПОКАЗ КНОПКИ НА HOVER CARD */
+.card:hover .addToCartWrapper {
+  opacity: 1;
 }
 
 .imageBox {
