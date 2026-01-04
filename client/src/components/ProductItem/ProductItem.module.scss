@@ -7,8 +7,7 @@
   background: #fff;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-  /* 🔥 Overlay на всю картку */
+  
   &::after {
     content: "";
     position: absolute;
@@ -38,7 +37,6 @@
   transition: opacity 0.3s ease;
 }
 
-/* 🔥 ПОКАЗ КНОПКИ НА HOVER CARD */
 .card:hover .addToCartWrapper {
   opacity: 1;
 }
@@ -69,6 +67,7 @@
 .title {
   font-size: 1rem;
   font-weight: 600;
+  color: #000;
 }
 
 .description {
@@ -89,4 +88,5 @@
 .price {
   font-weight: 700;
   font-size: 1.1rem;
+  color: #000;
 }
