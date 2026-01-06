@@ -7,7 +7,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getProducts } from "@/redux/slices/productSlice";
 
 export default function ProductList() {
-  const { products, loading, error } = useAppSelector((state) => state.products);
+  const { products, loading, error } = useAppSelector(
+    (state) => state.products
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,8 +22,6 @@ export default function ProductList() {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Our Products</h1>
-
-      {/* 🔥 ОКРЕМИЙ GRID */}
       <div className={styles.productsGrid}>
         {products.map((product) => (
           <ProductItem key={product._id} product={product} />
