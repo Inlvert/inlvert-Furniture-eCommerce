@@ -10,6 +10,16 @@
   grid-template-columns: 0.5fr 0.5fr 1fr 0.5fr 0.5fr;
   grid-template-rows: 250px 300px;
   grid-gap: 20px;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 250px);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(10, 250px);
+  }
 }
 
 .item {
