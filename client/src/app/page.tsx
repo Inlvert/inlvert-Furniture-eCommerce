@@ -1,5 +1,6 @@
 import ArticleBox from "@/components/ArticleBox/ArticleBox";
 import BrowseTheRange from "@/components/BrowseTheRange/BrowseTheRange";
+import Footer from "@/components/Footer/Footer";
 import Gallery from "@/components/Gallery/Gallery";
 import Navbar from "@/components/Navbar/Navbar";
 import ProductList from "@/components/ProductList/ProductList";
@@ -21,6 +22,7 @@ export default function Home() {
       <ProductList />
       <Slider />
       <Gallery />
+      <Footer />
     </div>
   );
 }
