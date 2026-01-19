@@ -1,0 +1,38 @@
+.cover {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.inputText {
+  flex: 1;
+  padding: 10px 4px;
+  color: #000;
+  width: 210px;
+  border: none;
+  border-bottom: 2px solid #000;
+  outline: none;
+  cursor: text;
+  background: transparent;
+}
+
+.submitButton {
+  padding: 10px 16px;
+  background: transparent;
+  color: #000;
+  border: none;
+  border-bottom: 2px solid #000;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.error {
+  margin-top: 4px;
+  color: red;
+  font-size: 12px;
+}
