@@ -1,8 +1,17 @@
+.sliderContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #f9f6f1;
+  max-width: 1440px;
+  width: 100%;
+}
+
 .slider {
   display: grid;
   grid-template-columns: 1fr 1.2fr 0.6fr;
   gap: 32px;
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   padding: 60px;
   background: #f9f6f1;
@@ -71,7 +80,7 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
-  background: #B88E2F;
+  background: #b88e2f;
   color: #fff;
   border: none;
   width: 48px;
@@ -92,15 +101,19 @@
   }
 
   .active {
-    background: #B88E2F;
+    background: #b88e2f;
   }
 }
 
-
 @media (max-width: 1024px) {
+  .sliderContainer {
+    background-color: #fff;
+  }
+
   .slider {
     grid-template-columns: 1fr;
     padding: 40px 24px;
+    transition: background-color 0.3s ease;
   }
 
   .left {

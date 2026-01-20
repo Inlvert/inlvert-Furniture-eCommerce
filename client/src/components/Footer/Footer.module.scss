@@ -1,5 +1,6 @@
 .wrapper {
   max-width: 1440px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +11,7 @@
 
 .rights {
   max-width: 1440px;
-  width: 1440px;
+  width: 100%;
   background-color: white;
   border-top: 1px solid #e0e0e0;
   // margin: 50px;
@@ -35,13 +36,13 @@
 
 .pText {
   font-size: 16px;
-  color: #333;
+  color: #666;
   line-height: 1.5;
 }
 
 .link {
   font-size: 16px;
-  color: #e0e0e0;
+  color: #666;
   text-decoration: none;
   margin-bottom: 30px;
 }
