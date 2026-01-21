@@ -1,27 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import bcrypt from 'bcryptjs';
-import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcryptjs';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private usersService: UsersService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
+    if (!user) throw new BadRequestException('Invalid credentials');
+    if (!user.password) throw new BadRequestException('Use Google login');
 
-    const matchPassword = await bcrypt.compare(password, user!.password);
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) throw new BadRequestException('Invalid credentials');
 
-    console.log('matchPassword', matchPassword);
-
-    if (user && matchPassword) {
-      const { password, ...result } = user.toObject();
-      return result;
-    }
-    return null;
+    const { password: _, ...result } = user.toObject();
+    return result;
   }
 
   async login(user: any) {
