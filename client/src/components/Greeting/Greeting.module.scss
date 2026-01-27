@@ -1,0 +1,29 @@
+.cover {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 50px;
+}
+
+.textColor {
+  color: black;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  color: #000;
+  transition: all 300ms ease-in-out;
+}
+
+.icon:hover {
+  color: #dc2626;
+  transform: scale(1.1);
+}
+
+.icon:active {
+  transform: scale(0.95);
+}
