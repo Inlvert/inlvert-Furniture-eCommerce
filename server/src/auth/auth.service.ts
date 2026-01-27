@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from '../users/users.service';
+import { OAuthUserDto } from './dto/oauth-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -33,5 +34,19 @@ export class AuthService {
       ...payload,
       accessToken: this.jwtService.sign(payload),
     };
+  }
+
+  async googleLogin(oauthUser: OAuthUserDto) {
+    let user = await this.usersService.findOrCreateByGoogle(oauthUser);
+
+    const accessToken = this.jwtService.sign({
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+
+    console.log("Google login successful:", { accessToken });
+    return { accessToken };
   }
 }

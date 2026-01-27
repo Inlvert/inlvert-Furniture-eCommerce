@@ -36,7 +36,7 @@ export class AuthController {
   async googleCallback(@Req() req, @Res({ passthrough: true }) res: Response) {
     const token = await this.authService.login(req.user);
     return res.redirect(
-      `${process.env.FRONTEND_URL}/oauth?token=${token.accessToken}`,
+      `${process.env.FRONTEND_OAUTH_REDIRECT}?token=${token.accessToken}`,
     );
   }
 
