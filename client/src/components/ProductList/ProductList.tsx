@@ -8,9 +8,7 @@ import { getProducts } from "@/redux/slices/productSlice";
 import ButtonMore from "../ButtonMore/ButtonMore";
 
 export default function ProductList() {
-  const { products, loading, error } = useAppSelector(
-    (state) => state.products,
-  );
+  const { items, loading, error } = useAppSelector((state) => state.products);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,7 +23,7 @@ export default function ProductList() {
       <section className={styles.container}>
         <h1 className={styles.title}>Our Products</h1>
         <div className={styles.productsGrid}>
-          {products.map((product) => (
+          {items.map((product: any) => (
             <ProductItem key={product._id} product={product} />
           ))}
         </div>

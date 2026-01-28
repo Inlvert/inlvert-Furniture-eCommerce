@@ -1,16 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as API from "@/api/index";
+import { Product } from "@/types/product.type";
 
 const SLICE_NAME = "product";
 
-interface ProductState {
-  products: Array<{ id: number; name: string; price: number }>;
+interface ProductsState {
+  items: Product[];
+  total: number;
+  page: number;
+  totalPages: number;
   loading: boolean;
   error: string | null;
 }
 
-const initialState: ProductState = {
-  products: [],
+const initialState: ProductsState = {
+  items: [],
+  total: 0,
+  page: 1,
+  totalPages: 1,
   loading: false,
   error: null,
 };
@@ -19,13 +26,15 @@ const getProducts = createAsyncThunk(
   `${SLICE_NAME}/getProducts`,
   async (_, thunkAPI) => {
     try {
-      const product = await API.getProducts();
-      return product;
+      const data = await API.getProducts();
+      return data; // { items, total, page, totalPages }
     } catch (error) {
       return thunkAPI.rejectWithValue("Failed to fetch products");
     }
-  }
+  },
 );
+
+
 const productSlice = createSlice({
   name: SLICE_NAME,
   initialState,
@@ -37,7 +46,10 @@ const productSlice = createSlice({
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.loading = false;
-      state.products = action.payload;
+      state.items = action.payload.items;
+      state.total = action.payload.total;
+      state.page = action.payload.page;
+      state.totalPages = action.payload.totalPages;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.loading = false;
