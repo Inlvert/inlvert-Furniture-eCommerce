@@ -30,7 +30,6 @@ export default function ProductList() {
           ))}
         </div>
       </section>
-      <ButtonMore text="Show More" />
     </div>
   );
 }

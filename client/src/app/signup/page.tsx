@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer/Footer";
 import Frame from "@/components/Frame/Frame";
 import Greeting from "@/components/Greeting/Greeting";
 import Navbar from "@/components/Navbar/Navbar";
@@ -29,6 +30,7 @@ function Signup() {
       <Frame title="Signup" />
       <Greeting />
       <SignupForm />
+      <Footer />
     </div>
   );
 }

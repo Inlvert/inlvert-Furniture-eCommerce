@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer/Footer";
 import Frame from "@/components/Frame/Frame";
 import Greeting from "@/components/Greeting/Greeting";
 import LoginForm from "@/components/LoginForm/LoginForm";
@@ -29,6 +30,7 @@ function Login() {
       <Frame title="Login" />
       <Greeting />
       <LoginForm />
+      <Footer />
     </div>
   );
 }
