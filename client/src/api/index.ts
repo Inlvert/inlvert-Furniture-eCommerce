@@ -11,6 +11,13 @@ export interface LoginDto {
   password: string;
 }
 
+export interface SignupDto {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
 // Request interceptor
 httpClient.interceptors.request.use(
   function (config) {
@@ -61,3 +68,8 @@ export const getProfile = async () => {
   const response = await httpClient.get("/auth/profile");
   return response;
 };
+
+export const registration = async (userData: SignupDto) => {
+  const response = await httpClient.post("/auth/registration", userData);
+  return response;
+};  
