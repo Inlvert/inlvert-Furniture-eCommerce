@@ -37,10 +37,10 @@ const login = createAsyncThunk<User, LoginDto, { rejectValue: string[] }>(
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.errors || [error.message || "Login failed"]
+        error.response?.data?.errors || [error.message || "Login failed"],
       );
     }
-  }
+  },
 );
 
 const getProfile = createAsyncThunk<User, void, { rejectValue: string[] }>(
@@ -52,11 +52,30 @@ const getProfile = createAsyncThunk<User, void, { rejectValue: string[] }>(
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Unauthorized"
+        error.response?.data?.message || "Unauthorized",
       );
     }
-  }
+  },
 );
+
+const registration = createAsyncThunk<
+  User,
+  API.SignupDto,
+  { rejectValue: string[] }
+>(`${SLICE_NAME}/registration`, async (userData, thunkAPI) => {
+  try {
+    const { data } = await API.registration(userData);
+    console.log("Registration response:", data);
+    return data;
+  } catch (error: any) {
+    const backendMessage = error.response?.data?.message;
+    const statusCode = error.response?.status;
+    console.log("Errors from backend:", backendMessage, "- Status code:", statusCode);
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.errors || "Registration failed",
+    );
+  }
+});
 
 const authSlice = createSlice({
   name: SLICE_NAME,
@@ -66,7 +85,7 @@ const authSlice = createSlice({
       state.user = null;
       state.error = null;
       localStorage.removeItem("accessToken");
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
@@ -93,12 +112,23 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload || ["Unknown error"];
     });
+    builder.addCase(registration.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(registration.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+    });
+    builder.addCase(registration.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload || ["Unknown error"];
+    });
   },
 });
 
 const { reducer: authReducer, actions } = authSlice;
 
-export { login, getProfile };
+export { login, getProfile, registration };
 
 export const { logout } = actions;
 
