@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { ProductDocument } from './schema/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { multerConfig } from '../utils/multer';
+import { PaginatedProductsDto } from './dto/paginate-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -28,7 +30,13 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(): Promise<ProductDocument[]> {
-    return this.productsService.findAll();
+  findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ): Promise<PaginatedProductsDto> {
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 8;
+    console.log('getAll');
+    return this.productsService.findAll(pageNum, limitNum);
   }
 }

@@ -3,6 +3,7 @@ import { Product, ProductDocument } from './schema/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { PaginatedProductsDto } from './dto/paginate-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -21,9 +22,24 @@ export class ProductsService {
     return newProduct.save();
   }
 
-  async findAll(): Promise<ProductDocument[]> {
-    const products = await this.productModel.find().exec();
+  async findAll(
+    page: number = 1,
+    limit: number = 8,
+  ): Promise<PaginatedProductsDto> {
+    const skip = (page - 1) * limit;
 
-    return products;
+    const [items, total] = await Promise.all([
+      this.productModel.find().skip(skip).limit(limit).exec(),
+      this.productModel.countDocuments().exec(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      items,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }
