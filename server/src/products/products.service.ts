@@ -24,7 +24,7 @@ export class ProductsService {
 
   async findAll(
     page: number = 1,
-    limit: number = 8,
+    limit: number = 16,
   ): Promise<PaginatedProductsDto> {
     const skip = (page - 1) * limit;
 

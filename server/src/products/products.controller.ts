@@ -35,7 +35,7 @@ export class ProductsController {
     @Query('limit') limit: string,
   ): Promise<PaginatedProductsDto> {
     const pageNum = parseInt(page) || 1;
-    const limitNum = parseInt(limit) || 8;
+    const limitNum = parseInt(limit) || 16;
     console.log('getAll');
     return this.productsService.findAll(pageNum, limitNum);
   }
