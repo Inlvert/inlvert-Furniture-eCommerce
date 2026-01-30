@@ -46,8 +46,10 @@ httpClient.interceptors.response.use(
   }
 );
 
-export const getProducts = async () => {
-  const response = await httpClient.get("/products");
+export const getProducts = async (page: number, limit: number) => {
+  const response = await httpClient.get("/products", {
+    params: { page, limit },
+  });
   console.log("getProducts response:", response.data);
   return response.data;
 };
