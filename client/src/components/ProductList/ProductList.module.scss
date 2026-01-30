@@ -44,3 +44,34 @@
     grid-template-columns: 1fr;
   }
 }
+
+.pagination {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 24px;
+
+  button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #f9f1e7;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #000;
+  }
+
+  button:hover {
+    background: #b88e2f;
+    color: white;
+  }
+
+  button:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.pagination button.activePage {
+  background: #b88e2f;
+  color: white;
+}
