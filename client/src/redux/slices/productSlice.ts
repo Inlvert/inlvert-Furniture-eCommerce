@@ -24,9 +24,9 @@ const initialState: ProductsState = {
 
 const getProducts = createAsyncThunk(
   `${SLICE_NAME}/getProducts`,
-  async (_, thunkAPI) => {
+  async ({ page, limit }: { page: number; limit: number }, thunkAPI) => {
     try {
-      const data = await API.getProducts();
+      const data = await API.getProducts(page, limit);
       return data; // { items, total, page, totalPages }
     } catch (error) {
       return thunkAPI.rejectWithValue("Failed to fetch products");
@@ -34,11 +34,14 @@ const getProducts = createAsyncThunk(
   },
 );
 
-
 const productSlice = createSlice({
   name: SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
       state.loading = true;
@@ -61,5 +64,7 @@ const productSlice = createSlice({
 const { reducer: productReducer, actions } = productSlice;
 
 export { getProducts };
+
+export const { setPage } = actions;
 
 export default productReducer;
