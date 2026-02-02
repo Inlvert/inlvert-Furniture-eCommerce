@@ -29,11 +29,12 @@ export default function Home() {
         <ArticleBox />
       </div>
       <BrowseTheRange />
-      <ProductList />
-      <ButtonMore text="Show More" onClick={handleRedirect} />
+      <ProductList page={1} limit={8} />
+      <ButtonMore text="Show More" onClick={handleRedirect}/>
       <Slider />
       <Gallery />
       <Footer />
     </div>
   );
 }
+
