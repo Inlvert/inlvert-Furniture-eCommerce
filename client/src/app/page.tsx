@@ -6,7 +6,7 @@ import ButtonMore from "@/components/ButtonMore/ButtonMore";
 import Footer from "@/components/Footer/Footer";
 import Gallery from "@/components/Gallery/Gallery";
 import Navbar from "@/components/Navbar/Navbar";
-import ProductList from "@/components/ProductList/ProductList";
+import ProductListWithOutPaginate from "@/components/ProductListWithOutPaginate/ProductListWithOutPaginate";
 import Slider from "@/components/Slider/Slider";
 import { useRouter } from "next/navigation";
 
@@ -29,7 +29,7 @@ export default function Home() {
         <ArticleBox />
       </div>
       <BrowseTheRange />
-      <ProductList page={1} limit={8} />
+      <ProductListWithOutPaginate />
       <ButtonMore text="Show More" onClick={handleRedirect}/>
       <Slider />
       <Gallery />
