@@ -2,13 +2,14 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ProductDocument } from './schema/product.schema';
+import { Product, ProductDocument } from './schema/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { multerConfig } from '../utils/multer';
@@ -38,5 +39,10 @@ export class ProductsController {
     const limitNum = parseInt(limit) || 16;
     console.log('getAll');
     return this.productsService.findAll(pageNum, limitNum);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') _id: string): Promise<Product | null> {
+    return this.productsService.findOne(_id);
   }
 }
