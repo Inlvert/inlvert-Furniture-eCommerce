@@ -41,3 +41,29 @@
   font-weight: 400;
   color: #555555;
 }
+
+@media (max-width: 768px) {
+  .cover {
+    grid-template-columns: repeat(2, 1fr);
+    height: auto;
+    row-gap: 20px;
+    padding: 20px 0;
+  }
+
+  .container {
+    gap: 10px;
+  }
+
+  .text {
+    font-size: 14px;
+    height: auto;
+  }
+
+  .textH1 {
+    font-size: 18px;
+  }
+
+  .textP {
+    font-size: 14px;
+  }
+}
