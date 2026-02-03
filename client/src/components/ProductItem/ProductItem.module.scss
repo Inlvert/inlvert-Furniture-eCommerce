@@ -7,39 +7,25 @@
   background: #fff;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &:hover::after {
-    opacity: 1;
-  }
 }
 
-.addToCartWrapper {
+/* overlay */
+.card::after {
+  content: "";
   position: absolute;
   inset: 0;
-  z-index: 3;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  background: rgba(0, 0, 0, 0.45);
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.card:hover .addToCartWrapper {
+.card:hover::after {
   opacity: 1;
 }
+
+/* IMAGE */
 
 .imageBox {
   width: 100%;
@@ -55,6 +41,8 @@
     display: block;
   }
 }
+
+/* CONTENT */
 
 .content {
   display: flex;
@@ -89,4 +77,39 @@
   font-weight: 700;
   font-size: 1.1rem;
   color: #000;
+}
+
+/* HOVER ACTIONS */
+
+.hoverActions {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .hoverActions {
+  opacity: 1;
+}
+
+
+.detailsLink {
+  padding: 10px 18px;
+  
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.detailsLink:hover {
+  text-decoration: underline;
 }

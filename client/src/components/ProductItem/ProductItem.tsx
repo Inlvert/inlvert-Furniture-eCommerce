@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import ButtonAddToCart from "../ButtonAddToCart/ButtonAddToCart";
 import styles from "./ProductItem.module.scss";
 import placeholderImg from "@/assets/placeholder.png";
 
 type Product = {
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -30,8 +32,13 @@ export default function ProductItem({ product }: { product: Product }) {
           <span className={styles.price}>${product.price}</span>
         </div>
       </div>
-      <div className={styles.addToCartWrapper}>
+      
+      <div className={styles.hoverActions}>
         <ButtonAddToCart text="Add to cart" onClick={() => {}} />
+
+        <Link href={`/products/${product._id}`} className={styles.detailsLink}>
+          Details
+        </Link>
       </div>
     </article>
   );
