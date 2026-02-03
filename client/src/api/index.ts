@@ -76,3 +76,8 @@ export const registration = async (userData: SignupDto) => {
   const response = await httpClient.post("/auth/registration", userData);
   return response;
 };  
+
+export const getOneProduct = async (id: string) => {
+  const response = await httpClient.get(`/products/${id}`);
+  return response.data;
+}
