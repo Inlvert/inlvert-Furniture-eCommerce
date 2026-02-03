@@ -34,6 +34,18 @@ const getProducts = createAsyncThunk(
   },
 );
 
+const getOneProduct = createAsyncThunk(
+  `${SLICE_NAME}/getOneProduct`,
+  async (productId: string, thunkAPI) => {
+    try {
+      const data = await API.getOneProduct(productId);
+      return data; // single product
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Failed to fetch product");
+    }
+  },
+);
+
 const productSlice = createSlice({
   name: SLICE_NAME,
   initialState,
@@ -58,12 +70,25 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
+
+    builder.addCase(getOneProduct.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getOneProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.items = action.payload;
+    });
+    builder.addCase(getOneProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 
 const { reducer: productReducer, actions } = productSlice;
 
-export { getProducts };
+export { getProducts, getOneProduct };
 
 export const { setPage } = actions;
 
