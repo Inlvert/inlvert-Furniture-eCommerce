@@ -9,6 +9,9 @@ export class Product {
   name: string;
 
   @Prop({ required: true })
+  smallDescription: string;
+
+  @Prop({ required: true })
   description: string;
 
   @Prop({ required: true })
@@ -22,6 +25,18 @@ export class Product {
 
   @Prop({ default: [] })
   images: string[];
+
+  @Prop()
+  sizes: string[];
+
+  @Prop({ default: [] })
+  colors: string[];
+
+  @Prop({ required: true, unique: true })
+  sku: string;
+
+  @Prop({ default: [] })
+  tags: string[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
