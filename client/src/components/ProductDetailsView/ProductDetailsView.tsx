@@ -9,8 +9,15 @@ type Product = {
   _id: string;
   name: string;
   description: string;
+  smallDescription: string;
   price: number;
   images?: string[];
+  category: string;
+  sizes?: string[];
+  colors?: string[];
+  sku?: string;
+  stock?: number;
+  tags?: string[];
 };
 
 export default function ProductDetailsView({ product }: { product: Product }) {
@@ -53,7 +60,7 @@ export default function ProductDetailsView({ product }: { product: Product }) {
 
           <div className={styles.price}>${product.price}</div>
 
-          <p className={styles.description}>{product.description}</p>
+          <p className={styles.description}>{product.smallDescription}</p>
 
           <ButtonAddToCart text="Add to cart" onClick={() => {}} />
         </div>
