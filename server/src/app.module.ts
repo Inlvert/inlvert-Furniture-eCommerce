@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsController } from './products/products.controller';
 import { ProductsModule } from './products/products.module';
+import { CartsModule } from './carts/carts.module';
+import { CartProductsModule } from './cart-products/cart-products.module';
 
 
 @Module({
@@ -22,6 +24,8 @@ import { ProductsModule } from './products/products.module';
       }),
     }),
     ProductsModule,
+    CartsModule,
+    CartProductsModule,
   ],
   controllers: [AppController, ProductsController],
   providers: [AppService],
