@@ -5,10 +5,19 @@ import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from './dto/create-users.dto';
 import { OAuthUserDto } from 'src/auth/dto/oauth-user.dto';
 import { User, UserDocument } from './schema/users.schema';
+import { use } from 'passport';
+import {
+  CartProduct,
+  CartProductDocument,
+} from 'src/cart-products/schema/cart-products.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(CartProduct.name)
+    private cartProductModel: Model<CartProductDocument>,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const exist = await this.userModel.findOne({ email: createUserDto.email });
@@ -16,7 +25,17 @@ export class UsersService {
 
     const hashed = await bcrypt.hash(createUserDto.password, 10);
 
-    return this.userModel.create({ ...createUserDto, password: hashed });
+    const user = await this.userModel.create({
+      ...createUserDto,
+      password: hashed,
+    });
+
+    await this.cartProductModel.create({
+      userId: user._id,
+      items: [],
+    });
+
+    return user;
   }
 
   async findByEmail(email: string): Promise<UserDocument | null> {
