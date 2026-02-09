@@ -2,20 +2,20 @@ import { IsString, IsNumber } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  readonly name: string;
+  readonly name!: string;
 
   @IsString()
-  readonly description: string;
+  readonly description!: string;
 
   @IsString()
-  readonly price: string;
+  readonly price!: string;
 
   @IsString()
-  readonly category: string;
+  readonly category!: string;
 
   @IsString({ each: true })
-  readonly images: string[];
+  readonly images!: string[];
 
   @IsNumber()
-  readonly stock: number;
+  readonly stock!: number;
 }
