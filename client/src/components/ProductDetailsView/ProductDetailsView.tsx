@@ -4,6 +4,8 @@ import { useState } from "react";
 import styles from "./ProductDetailsView.module.scss";
 import ButtonAddToCart from "@/components/ButtonAddToCart/ButtonAddToCart";
 import placeholderImg from "@/assets/placeholder.png";
+import { useAppDispatch } from "@/redux/hooks";
+import { addProductToCart } from "@/redux/slices/cartProductSlise";
 
 type Product = {
   _id: string;
@@ -23,18 +25,32 @@ type Product = {
 export default function ProductDetailsView({ product }: { product: Product }) {
   const images = product.images?.length
     ? product.images.map(
-        (img) => `http://localhost:5000/images/${encodeURIComponent(img)}`
+        (img) => `http://localhost:5000/images/${encodeURIComponent(img)}`,
       )
     : [placeholderImg.src];
 
+  const [selectedSize, setSelectedSize] = useState<string | undefined>();
+  const [selectedColor, setSelectedColor] = useState<string | undefined>();
+
   const [activeImage, setActiveImage] = useState(images[0]);
+
+  const dispatch = useAppDispatch();
+
+  function handleAddToCart() {
+    dispatch(
+      addProductToCart({
+        productId: product._id,
+        quantity: 1,
+        size: selectedSize,
+        color: selectedColor,
+      }),
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        
         <div className={styles.gallery}>
-          
           <div className={styles.thumbsCol}>
             {images.map((src, i) => (
               <img
@@ -52,9 +68,8 @@ export default function ProductDetailsView({ product }: { product: Product }) {
           <div className={styles.mainImage}>
             <img src={activeImage} alt={product.name} />
           </div>
-
         </div>
-        
+
         <div className={styles.infoCol}>
           <h1>{product.name}</h1>
 
@@ -62,9 +77,8 @@ export default function ProductDetailsView({ product }: { product: Product }) {
 
           <p className={styles.description}>{product.smallDescription}</p>
 
-          <ButtonAddToCart text="Add to cart" onClick={() => {}} />
+          <ButtonAddToCart text="Add to cart" onClick={handleAddToCart} />
         </div>
-
       </div>
     </div>
   );
