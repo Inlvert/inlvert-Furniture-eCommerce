@@ -10,22 +10,18 @@ export class CartProduct {
   userId!: Types.ObjectId;
   
   @Prop([
-    {
-      productId: {
-        type: Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        default: 1,
-        min: 1,
-      },
-    },
-  ])
+  {
+    productId: { type: Types.ObjectId, ref: "Product", required: true },
+    quantity: { type: Number, default: 1, min: 1 },
+    color: String,
+    size: String,
+  },
+])
   items!: {
     productId: Types.ObjectId;
     quantity: number;
+    color?: string;
+    size?: string;
   }[];
 }
 
