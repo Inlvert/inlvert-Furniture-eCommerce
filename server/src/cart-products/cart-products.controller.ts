@@ -7,9 +7,12 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CartProductsService } from './cart-products.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import type { Request } from 'express';
 
 @Controller('cart')
 @UseGuards(JwtAuthGuard)
@@ -17,18 +20,29 @@ export class CartProductsController {
   constructor(private readonly cartService: CartProductsService) {}
 
   @Get()
-  getCart(@Body('userId') userId: string) {
+  getCart(@Req() req: Request) {
+    const userId = (req.user as any)?.id;
+
+    console.log("USER ID IN CART REQUEST:", userId);
+    if (!userId) {
+      throw new UnauthorizedException('No user in request');
+    }
+
     return this.cartService.getCartByUser(userId);
   }
- 
+
   @Post('add')
   addProduct(
-    @Body('userId') userId: string,
+    @Req() req: Request,
     @Body('productId') productId: string,
     @Body('quantity') quantity: number,
     @Body('color') color: string,
     @Body('size') size: string,
   ) {
+    const userId = (req.user as any)?.id;
+    if (!userId) {
+      throw new UnauthorizedException('No user in request');
+    }
     return this.cartService.addProduct(userId, productId, quantity);
   }
 
@@ -42,7 +56,10 @@ export class CartProductsController {
   }
 
   @Delete('remove/:productId')
-  removeProduct(@Body('userId') userId: string, @Param('productId') productId: string) {
+  removeProduct(
+    @Body('userId') userId: string,
+    @Param('productId') productId: string,
+  ) {
     return this.cartService.removeProduct(userId, productId);
   }
 

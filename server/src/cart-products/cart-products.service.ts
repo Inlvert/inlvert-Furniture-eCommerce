@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CartProduct, CartProductDocument } from './schema/cart-products.schema';
+import {
+  CartProduct,
+  CartProductDocument,
+} from './schema/cart-products.schema';
 
 @Injectable()
 export class CartProductsService {
@@ -9,31 +12,65 @@ export class CartProductsService {
     @InjectModel(CartProduct.name)
     private cartProductModel: Model<CartProductDocument>,
   ) {}
- 
+
   async getCartByUser(userId: string) {
-    const cart = await this.cartProductModel
-      .findOne({ userId: new Types.ObjectId(userId) })
-      .populate('items.productId');
-    if (!cart) throw new NotFoundException('Cart not found');
-    return cart;
+  const cart = await this.cartProductModel
+    .findOne({ userId })
+    .populate('items.productId');
+
+  if (!cart) {
+    return { items: [], total: 0 };
   }
 
-  async addProduct(userId: string, productId: string, quantity = 1, color?: string, size?: string) {
-    const cart = await this.cartProductModel.findOne({ userId });
-    if (!cart) throw new NotFoundException('Cart not found');
+  return {
+    items: cart.items,
+    total: cart.items.length,
+  };
+}
+
+
+  async addProduct(
+    userId: string,
+    productId: string,
+    quantity = 1,
+    color?: string,
+    size?: string,
+  ) {
+    let cart = await this.cartProductModel.findOne({ userId });
+
+    if (!cart) {
+      cart = new this.cartProductModel({
+        userId,
+        items: [],
+      });
+    }
 
     const existingItem = cart.items.find(
-      (item) => item.productId.toString() === productId,
+      (i) =>
+        i.productId.toString() === productId &&
+        i.color === color &&
+        i.size === size,
     );
 
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      cart.items.push({ productId: new Types.ObjectId(productId), quantity });
+      cart.items.push({
+        productId: new Types.ObjectId(productId),
+        quantity,
+        color,
+        size,
+      });
     }
 
     await cart.save();
-    return cart;
+
+    const populated = await cart.populate('items.productId');
+
+    return {
+      items: populated.items,
+      total: populated.items.length,
+    };
   }
 
   async updateQuantity(userId: string, productId: string, quantity: number) {
@@ -45,7 +82,9 @@ export class CartProductsService {
 
     item.quantity = quantity;
     if (item.quantity <= 0) {
-      cart.items = cart.items.filter((i) => i.productId.toString() !== productId);
+      cart.items = cart.items.filter(
+        (i) => i.productId.toString() !== productId,
+      );
     }
 
     await cart.save();
