@@ -6,37 +6,37 @@ export type ProductDocument = Product & Document;
 @Schema({ timestamps: true })
 export class Product {
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @Prop({ required: true })
-  smallDescription: string;
+  smallDescription!: string;
 
   @Prop({ required: true })
-  description: string;
+  description!: string;
 
   @Prop({ required: true })
-  price: number;
+  price!: number;
 
   @Prop({ required: true, default: 10 })
-  stock: number;
+  stock!: number;
 
   @Prop({ required: true })
-  category: string;
+  category!: string;
 
   @Prop({ default: [] })
-  images: string[];
+  images!: string[];
 
   @Prop()
-  sizes: string[];
+  sizes!: string[];
 
   @Prop({ default: [] })
-  colors: string[];
+  colors!: string[];
 
   @Prop({ required: true, unique: true })
-  sku: string;
+  sku!: string;
 
   @Prop({ default: [] })
-  tags: string[];
+  tags!: string[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
