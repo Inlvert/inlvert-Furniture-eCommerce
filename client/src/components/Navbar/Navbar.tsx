@@ -68,7 +68,7 @@ export default function Navbar() {
               />
             </svg>
           </Link>
-          <Link href="/registration" className="hover:font-bold transition">
+          <Link href="/cart" className="hover:font-bold transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -84,7 +84,7 @@ export default function Navbar() {
               />
             </svg>
           </Link>
-          <Link href="/" className="hover:font-bold transition">
+          <Link href="/cart" className="hover:font-bold transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
