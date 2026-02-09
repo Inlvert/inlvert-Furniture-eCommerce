@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
+import { CartProduct } from 'src/cart-products/schema/cart-products.schema';
 
 export type UserDocument = User & Document;
 
@@ -22,7 +23,9 @@ export class User {
 
   @Prop()
   avatar?: string;
- 
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'CartProduct' }])
+  cartProducts!: CartProduct[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

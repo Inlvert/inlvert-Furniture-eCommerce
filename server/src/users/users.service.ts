@@ -10,6 +10,7 @@ import {
   CartProduct,
   CartProductDocument,
 } from 'src/cart-products/schema/cart-products.schema';
+import path from 'path';
 
 @Injectable()
 export class UsersService {
@@ -55,5 +56,22 @@ export class UsersService {
     }
 
     return this.userModel.create({ ...oauthUser, password: undefined });
+  }
+
+  async findOne(id: string): Promise<Omit<User, 'password'>> {
+    const user = await this.userModel
+      .findById(id)
+      .populate({
+        path: 'cartProducts',
+        populate: {
+          path: 'productId',
+        },
+      })
+      .exec();
+
+    if (!user) throw new BadRequestException('User not found');
+
+    const { password, ...result } = user.toObject();
+    return result;
   }
 }
