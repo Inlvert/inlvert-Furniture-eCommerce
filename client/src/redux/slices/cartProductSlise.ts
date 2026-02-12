@@ -11,7 +11,6 @@ export interface CartItem {
   size?: string;
 }
 
-
 interface CartProductState {
   items: CartItem[];
   total: number;
@@ -69,6 +68,35 @@ const getProductsInCart = createAsyncThunk(
   },
 );
 
+const updateCartProductQuantity = createAsyncThunk(
+  `${SLICE_NAME}/updateCartProductQuantity`,
+  async (
+    { productId, quantity }: { productId: string; quantity: number },
+    thunkAPI,
+  ) => {
+    try {
+      return await API.updateCartProductQuantity(productId, quantity);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to update quantity",
+      );
+    }
+  },
+);
+
+const removeProductFromCart = createAsyncThunk(
+  `${SLICE_NAME}/removeProductFromCart`,
+  async (productId: string, thunkAPI) => {
+    try {
+      return await API.removeProductFromCart(productId);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to remove product",
+      );
+    }
+  },
+);
+
 const cartProductSlice = createSlice({
   name: "cartProduct",
   initialState,
@@ -101,11 +129,44 @@ const cartProductSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
+    builder.addCase(updateCartProductQuantity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateCartProductQuantity.fulfilled, (state, action) => {
+      state.loading = false;
+      state.items = action.payload.items;
+      state.total = action.payload.total;
+    });
+    builder.addCase(updateCartProductQuantity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    builder.addCase(removeProductFromCart.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(removeProductFromCart.fulfilled, (state, action) => {
+      state.loading = false;
+      // const id = action.payload;
+      state.items = action.payload.items;
+      state.total = action.payload.total;
+    });
+    builder.addCase(removeProductFromCart.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
   },
 });
 
 const { reducer: cartProductReducer, actions } = cartProductSlice;
 
-export { addProductToCart, getProductsInCart };
+export {
+  addProductToCart,
+  getProductsInCart,
+  updateCartProductQuantity,
+  removeProductFromCart,
+};
 
 export default cartProductReducer;
