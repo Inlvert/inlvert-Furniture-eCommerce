@@ -23,7 +23,7 @@ export class CartProductsController {
   getCart(@Req() req: Request) {
     const userId = (req.user as any)?.id;
 
-    console.log("USER ID IN CART REQUEST:", userId);
+    console.log('USER ID IN CART REQUEST:', userId);
     if (!userId) {
       throw new UnauthorizedException('No user in request');
     }
@@ -48,18 +48,20 @@ export class CartProductsController {
 
   @Patch('update')
   updateQuantity(
-    @Body('userId') userId: string,
+    @Req() req: Request,
     @Body('productId') productId: string,
     @Body('quantity') quantity: number,
   ) {
+    const userId = (req.user as any)?.id;
+    if (!userId) {
+      throw new UnauthorizedException('No user in request');
+    }
     return this.cartService.updateQuantity(userId, productId, quantity);
   }
 
   @Delete('remove/:productId')
-  removeProduct(
-    @Body('userId') userId: string,
-    @Param('productId') productId: string,
-  ) {
+  removeProduct(@Req() req: Request, @Param('productId') productId: string) {
+    const userId = (req.user as any)?.id;
     return this.cartService.removeProduct(userId, productId);
   }
 

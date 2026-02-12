@@ -14,20 +14,19 @@ export class CartProductsService {
   ) {}
 
   async getCartByUser(userId: string) {
-  const cart = await this.cartProductModel
-    .findOne({ userId })
-    .populate('items.productId');
+    const cart = await this.cartProductModel
+      .findOne({ userId })
+      .populate('items.productId');
 
-  if (!cart) {
-    return { items: [], total: 0 };
+    if (!cart) {
+      return { items: [], total: 0 };
+    }
+
+    return {
+      items: cart.items,
+      total: cart.items.length,
+    };
   }
-
-  return {
-    items: cart.items,
-    total: cart.items.length,
-  };
-}
-
 
   async addProduct(
     userId: string,
@@ -75,12 +74,15 @@ export class CartProductsService {
 
   async updateQuantity(userId: string, productId: string, quantity: number) {
     const cart = await this.cartProductModel.findOne({ userId });
+
     if (!cart) throw new NotFoundException('Cart not found');
 
     const item = cart.items.find((i) => i.productId.toString() === productId);
+
     if (!item) throw new NotFoundException('Product not in cart');
 
     item.quantity = quantity;
+
     if (item.quantity <= 0) {
       cart.items = cart.items.filter(
         (i) => i.productId.toString() !== productId,
@@ -88,17 +90,50 @@ export class CartProductsService {
     }
 
     await cart.save();
-    return cart;
+
+    const populatedCart = await this.cartProductModel
+      .findOne({ userId })
+      .populate('items.productId');
+
+    if (!populatedCart) {
+      throw new NotFoundException('Cart not found after update');
+    }
+
+    const total = populatedCart.items.reduce(
+      (sum, i: any) => sum + (i.productId?.price || 0) * i.quantity,
+      0,
+    );
+
+    return {
+      items: populatedCart.items,
+      total,
+    };
   }
 
   async removeProduct(userId: string, productId: string) {
-    const cart = await this.cartProductModel.findOne({ userId });
-    if (!cart) throw new NotFoundException('Cart not found');
+  const cart = await this.cartProductModel.findOne({ userId });
+  if (!cart) throw new NotFoundException('Cart not found');
 
-    cart.items = cart.items.filter((i) => i.productId.toString() !== productId);
-    await cart.save();
-    return cart;
-  }
+  cart.items = cart.items.filter(
+    (i: any) => i.productId.toString() !== productId,
+  );
+
+  await cart.save();
+  const populated = await cart.populate('items.productId');
+
+  const total = populated.items.reduce(
+    (sum: number, i: any) =>
+      sum + (i.productId?.price || 0) * i.quantity,
+    0,
+  );
+
+  return {
+    items: populated.items,
+    total,
+  };
+}
+
+
 
   async clearCart(userId: string) {
     const cart = await this.cartProductModel.findOne({ userId });
