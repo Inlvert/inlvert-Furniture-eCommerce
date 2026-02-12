@@ -1,5 +1,6 @@
 "use client";
 
+import { Product } from "@/types/product.type";
 import axios from "axios";
 
 const httpClient = axios.create({
@@ -17,6 +18,13 @@ export interface SignupDto {
   firstName: string;
   lastName: string;
 }
+
+export interface CartItem {
+  _id: string;
+  productId: Product;
+  quantity: number;
+}
+  
 
 // Request interceptor
 httpClient.interceptors.request.use(
