@@ -6,6 +6,7 @@ import ButtonAddToCart from "@/components/ButtonAddToCart/ButtonAddToCart";
 import placeholderImg from "@/assets/placeholder.png";
 import { useAppDispatch } from "@/redux/hooks";
 import { addProductToCart } from "@/redux/slices/cartProductSlise";
+import VariantSelector from "../VariantSelector/VariantSelector";
 
 type Product = {
   _id: string;
@@ -29,8 +30,7 @@ export default function ProductDetailsView({ product }: { product: Product }) {
       )
     : [placeholderImg.src];
 
-  const [selectedSize, setSelectedSize] = useState<string | undefined>();
-  const [selectedColor, setSelectedColor] = useState<string | undefined>();
+  const [variant, setVariant] = useState({ size: "", color: "" });
 
   const [activeImage, setActiveImage] = useState(images[0]);
 
@@ -41,10 +41,16 @@ export default function ProductDetailsView({ product }: { product: Product }) {
       addProductToCart({
         productId: product._id,
         quantity: 1,
-        size: selectedSize,
-        color: selectedColor,
+        size: variant.size,
+        color: variant.color,
       }),
     );
+    console.log("Added to cart:", {
+      productId: product._id,
+      quantity: 1,
+      size: variant.size,
+      color: variant.color,
+    });
   }
 
   return (
@@ -76,6 +82,12 @@ export default function ProductDetailsView({ product }: { product: Product }) {
           <div className={styles.price}>${product.price}</div>
 
           <p className={styles.description}>{product.smallDescription}</p>
+
+          <VariantSelector
+            sizes={product.sizes}
+            colors={product.colors}
+            onChange={setVariant}
+          />
 
           <ButtonAddToCart text="Add to cart" onClick={handleAddToCart} />
         </div>
