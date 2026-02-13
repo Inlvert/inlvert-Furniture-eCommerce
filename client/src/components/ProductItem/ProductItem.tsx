@@ -4,6 +4,8 @@ import Link from "next/link";
 import ButtonAddToCart from "../ButtonAddToCart/ButtonAddToCart";
 import styles from "./ProductItem.module.scss";
 import placeholderImg from "@/assets/placeholder.png";
+import { useAppDispatch } from "@/redux/hooks";
+import { addProductToCart } from "@/redux/slices/cartProductSlise";
 
 type Product = {
   _id: string;
@@ -14,6 +16,16 @@ type Product = {
 };
 
 export default function ProductItem({ product }: { product: Product }) {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(
+      addProductToCart({
+        productId: product._id,
+        quantity: 1,
+      }),
+    );
+  };
   const imageSrc = product.images?.length
     ? `http://localhost:5000/images/${encodeURIComponent(product.images[0])}`
     : placeholderImg.src;
@@ -32,9 +44,9 @@ export default function ProductItem({ product }: { product: Product }) {
           <span className={styles.price}>${product.price}</span>
         </div>
       </div>
-      
+
       <div className={styles.hoverActions}>
-        <ButtonAddToCart text="Add to cart" onClick={() => {}} />
+        <ButtonAddToCart text="Add to cart" onClick={handleAddToCart} />
 
         <Link href={`/products/${product._id}`} className={styles.detailsLink}>
           Details
