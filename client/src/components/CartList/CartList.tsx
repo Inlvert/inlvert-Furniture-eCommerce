@@ -101,7 +101,7 @@ export default function CartList() {
                   dispatch(removeProductFromCart(item.productId._id))
                 }
               >
-                🗑
+                <img src="/delete.svg" alt="Remove item" />
               </button>
             </div>
           );
