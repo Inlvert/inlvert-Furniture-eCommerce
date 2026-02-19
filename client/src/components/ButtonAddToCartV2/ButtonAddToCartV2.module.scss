@@ -1,0 +1,26 @@
+.btn {
+  padding: 14px 26px;
+  border: #000 1px solid;
+  border-radius: 10px;
+  background: #fff;
+  color: #000;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.15s ease,
+    background 0.2s ease;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: #b88e2f;
+    color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  }
+}
