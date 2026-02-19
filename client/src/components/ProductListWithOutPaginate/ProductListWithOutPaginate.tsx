@@ -9,11 +9,13 @@ import { getProducts } from "@/redux/slices/productSlice";
 interface ProductListProps {
   limit?: number;
   withPagination?: boolean;
+  title?: string;
 }
 
 export default function ProductListWithOutPaginate({
   limit = 8,
   withPagination = false,
+  title,
 }: ProductListProps) {
   const dispatch = useAppDispatch();
 
@@ -35,7 +37,7 @@ export default function ProductListWithOutPaginate({
   return (
     <div className={styles.productList}>
       <section className={styles.container}>
-        <h1 className={styles.title}>Our Products</h1>
+        <h1 className={styles.title}>{title}</h1>
 
         <div className={styles.productsGrid}>
           {items.map((product: any) => (
