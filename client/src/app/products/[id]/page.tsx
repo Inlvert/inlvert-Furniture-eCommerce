@@ -1,5 +1,10 @@
+
+import ButtonMore from "@/components/ButtonMore/ButtonMore";
+import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
 import ProductDetailsView from "@/components/ProductDetailsView/ProductDetailsView";
+import ProductListWithOutPaginate from "@/components/ProductListWithOutPaginate/ProductListWithOutPaginate";
+import router from "next/dist/shared/lib/router/router";
 
 async function getProduct(id: string) {
   const res = await fetch(`http://localhost:5000/products/${id}`, {
@@ -16,13 +21,16 @@ export default async function ProductDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
   const product = await getProduct(id);
+  
 
   return (
-    <div>
+    <div className="flex items-center  flex-col">
       <Navbar />
-      <ProductDetailsView product={product} />;
+      <ProductDetailsView product={product} />
+      <ProductListWithOutPaginate title="Related Products" />
+      <Footer />
     </div>
   );
 }
