@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import styles from "./ProductDetailsView.module.scss";
-import ButtonAddToCart from "@/components/ButtonAddToCart/ButtonAddToCart";
 import placeholderImg from "@/assets/placeholder.png";
 import { useAppDispatch } from "@/redux/hooks";
 import { addProductToCart } from "@/redux/slices/cartProductSlise";
 import VariantSelector from "../VariantSelector/VariantSelector";
+import Quantity from "../Quantity/Quantity";
+import ButtonAddToCartV2 from "../ButtonAddToCartV2/ButtonAddToCartV2";
+import ProductTabs from "../ProductTabs/ProductTabs";
 
 type Product = {
   _id: string;
@@ -34,20 +36,22 @@ export default function ProductDetailsView({ product }: { product: Product }) {
 
   const [activeImage, setActiveImage] = useState(images[0]);
 
+  const [qty, setQty] = useState(1);
+
   const dispatch = useAppDispatch();
 
   function handleAddToCart() {
     dispatch(
       addProductToCart({
         productId: product._id,
-        quantity: 1,
+        quantity: qty,
         size: variant.size,
         color: variant.color,
       }),
     );
     console.log("Added to cart:", {
       productId: product._id,
-      quantity: 1,
+      quantity: qty,
       size: variant.size,
       color: variant.color,
     });
@@ -89,9 +93,54 @@ export default function ProductDetailsView({ product }: { product: Product }) {
             onChange={setVariant}
           />
 
-          <ButtonAddToCart text="Add to cart" onClick={handleAddToCart} />
+          <div className={styles.variantsCover}>
+            <Quantity quantity={qty} onChange={setQty} />
+
+            <ButtonAddToCartV2 text="Add to cart" onClick={handleAddToCart} />
+
+            <ButtonAddToCartV2 text="+ Compare" onClick={() => {}} />
+          </div>
+          <span className={styles.bordetop}></span>
+
+          <h2 className={styles.textColor}>SKU: {product.sku}</h2>
+          <h3 className={styles.textColor}>Category: {product.category}</h3>
+          <h4 className={styles.textColor}>Tags: {product.tags}</h4>
+          <h5 className={styles.textColor}>Share: </h5>
         </div>
       </div>
+      <div className={styles.border}></div>
+      <ProductTabs
+        tabs={[
+          {
+            id: "description",
+            label: "Description",
+            content: <p>{product.description}</p>,
+          },
+          {
+            id: "additional",
+            label: "Additional Information",
+            content: <p>Some additional info here</p>,
+          },
+          {
+            id: "reviews",
+            label: "Reviews [5]",
+            content: <p>Reviews content here</p>,
+          },
+        ]}
+      />
+      <div className={styles.imageContainer}>
+        <img
+          src="/images/Cloud sofa three seater + ottoman_2_1.png"
+          alt=""
+          className={styles.imageBG}
+        />
+        <img
+          src="/images/Cloud sofa three seater + ottoman_1_1.png"
+          alt=""
+          className={styles.imageBG}
+        />
+      </div>
+      <div className={styles.border}></div>
     </div>
   );
 }
