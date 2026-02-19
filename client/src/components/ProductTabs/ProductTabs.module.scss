@@ -1,0 +1,35 @@
+.wrapper {
+  margin-top: 40px;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.tablinks {
+  background: transparent;
+  border: none;
+  padding: 14px 0;
+  cursor: pointer;
+  font-size: 18px;
+  color: #9f9f9f;
+  transition: 0.3s;
+}
+
+.tablinks:hover {
+  color: #000;
+}
+
+.active {
+  color: #000;
+  border-bottom: 2px solid #b88e2f;
+}
+
+.tabcontent {
+  padding: 40px 0;
+  max-width: 900px;
+  margin: 0 auto;
+  color: #000;
+}
