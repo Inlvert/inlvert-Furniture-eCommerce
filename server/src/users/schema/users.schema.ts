@@ -26,6 +26,9 @@ export class User {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'CartProduct' }])
   cartProducts!: CartProduct[];
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }])
+  reviews!: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
