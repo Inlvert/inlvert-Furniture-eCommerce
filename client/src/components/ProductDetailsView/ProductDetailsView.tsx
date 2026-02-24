@@ -9,6 +9,7 @@ import VariantSelector from "../VariantSelector/VariantSelector";
 import Quantity from "../Quantity/Quantity";
 import ButtonAddToCartV2 from "../ButtonAddToCartV2/ButtonAddToCartV2";
 import ProductTabs from "../ProductTabs/ProductTabs";
+import Rating from "../Rating/Rating";
 
 type Product = {
   _id: string;
@@ -23,6 +24,7 @@ type Product = {
   sku?: string;
   stock?: number;
   tags?: string[];
+  averageRating?: number;
 };
 
 export default function ProductDetailsView({ product }: { product: Product }) {
@@ -82,6 +84,8 @@ export default function ProductDetailsView({ product }: { product: Product }) {
 
         <div className={styles.infoCol}>
           <h1>{product.name}</h1>
+
+          <Rating value={product.averageRating || 0} readOnly />
 
           <div className={styles.price}>${product.price}</div>
 
