@@ -1,0 +1,36 @@
+.rating {
+  display: flex;
+  gap: 6px;
+}
+
+.star {
+  position: relative;
+  font-size: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.readOnly {
+  cursor: default;
+
+  &:hover {
+    transform: none;
+  }
+}
+
+.empty {
+  color: #e4e5e9;
+}
+
+.filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
