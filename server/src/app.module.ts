@@ -8,6 +8,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsController } from './products/products.controller';
 import { ProductsModule } from './products/products.module';
 import { CartProductsModule } from './cart-products/cart-products.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { CompareModule } from './compare/compare.module';
+import { OrdersModule } from './orders/orders.module';
 
 
 @Module({
@@ -24,6 +27,9 @@ import { CartProductsModule } from './cart-products/cart-products.module';
     }),
     ProductsModule,
     CartProductsModule,
+    ReviewsModule,
+    CompareModule,
+    OrdersModule,
   ],
   controllers: [AppController, ProductsController],
   providers: [AppService],
