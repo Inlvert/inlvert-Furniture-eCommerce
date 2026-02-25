@@ -130,3 +130,16 @@ export const clearCart = async () => {
   const response = await httpClient.delete(`/cart/clear`);
   return response.data;
 };
+
+export const createReview = async (reviewData: {
+  productId: string;
+  rating: number;
+  comment: string;
+}) => {
+  const response = await httpClient.post(`/reviews`, {
+    productId: reviewData.productId,
+    rating: reviewData.rating,
+    comment: reviewData.comment,
+  });
+  return response.data;
+}
