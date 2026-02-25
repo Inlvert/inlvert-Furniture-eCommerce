@@ -10,6 +10,7 @@ import Quantity from "../Quantity/Quantity";
 import ButtonAddToCartV2 from "../ButtonAddToCartV2/ButtonAddToCartV2";
 import ProductTabs from "../ProductTabs/ProductTabs";
 import Rating from "../Rating/Rating";
+import ReviewsForm from "../ReviewsForm/ReviewsForm";
 
 type Product = {
   _id: string;
@@ -127,8 +128,8 @@ export default function ProductDetailsView({ product }: { product: Product }) {
           },
           {
             id: "reviews",
-            label: "Reviews [5]",
-            content: <p>Reviews content here</p>,
+            label: "Reviews",
+            content: <ReviewsForm />,
           },
         ]}
       />
