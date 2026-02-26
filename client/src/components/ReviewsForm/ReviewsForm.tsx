@@ -1,5 +1,6 @@
-'use client';
+"use client";
 
+import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { useParams } from "next/navigation";
 import styles from "./ReviewsForm.module.scss";
@@ -13,8 +14,8 @@ interface ReviewValues {
 }
 
 const initialValues: ReviewValues = {
-  rating: 1,
-  comment: "test comment",
+  rating: 0,
+  comment: "",
 };
 
 const validationSchema = Yup.object({
@@ -28,18 +29,19 @@ const validationSchema = Yup.object({
 export default function ReviewsForm() {
   const dispatch = useAppDispatch();
   const params = useParams();
+  const productId = params.id as string;
 
-  const productId = params.id as string; // ← ВАЖЛИВО
+  const [hovered, setHovered] = useState<number | null>(null);
 
   const handleSubmit = async (
     reviewData: ReviewValues,
-    { resetForm, setStatus }: FormikHelpers<ReviewValues>,
+    { resetForm, setStatus }: FormikHelpers<ReviewValues>
   ) => {
     try {
       await dispatch(
         createReview({
           ...reviewData,
-          productId, // ← додаємо сюди
+          productId,
         })
       ).unwrap();
 
@@ -58,21 +60,55 @@ export default function ReviewsForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className={styles.form}>
-          <div>
-            <label>Rating</label>
-            <Field type="number" name="rating" min="1" max="5" />
-            <ErrorMessage name="rating" component="div" />
-          </div>
+        {({ setFieldValue, values }) => (
+          <Form className={styles.form}>
+            <div className={styles.ratingBlock}>
+              <label>Rating</label>
 
-          <div>
-            <label>Comment</label>
-            <Field as="textarea" name="comment" />
-            <ErrorMessage name="comment" component="div" />
-          </div>
+              <div className={styles.stars}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={
+                      star <= (hovered ?? values.rating)
+                        ? styles.activeStar
+                        : styles.star
+                    }
+                    onClick={() => setFieldValue("rating", star)}
+                    onMouseEnter={() => setHovered(star)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
 
-          <button type="submit">Submit Review</button>
-        </Form>
+              <ErrorMessage
+                name="rating"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <div className={styles.commentBlock}>
+              <label>Comment</label>
+              <Field
+                as="textarea"
+                name="comment"
+                className={styles.textarea}
+              />
+              <ErrorMessage
+                name="comment"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <button type="submit" className={styles.button}>
+              Submit Review
+            </button>
+          </Form>
+        )}
       </Formik>
     </div>
   );
