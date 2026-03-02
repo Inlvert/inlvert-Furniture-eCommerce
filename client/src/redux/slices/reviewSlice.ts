@@ -4,10 +4,14 @@ import * as API from "@/api/index";
 const SLICE_NAME = "reviews";
 
 interface Review {
-  id: string;
+  _id: string;
   productId: string;
   rating: number;
   comment: string;
+  userId?: {
+    firstName: string;
+    lastName: string;
+  };
 }
 
 interface ReviewState {
@@ -39,6 +43,23 @@ export const createReview = createAsyncThunk<
   }
 });
 
+export const getAllReviews = createAsyncThunk<
+  Review[],
+  string,
+  { rejectValue: string }
+>(`${SLICE_NAME}/getAllReviews`, async (productId: string, thunkAPI) => {
+  try {
+    const data = await API.getAllReviewsOneProduct(productId);
+    return data;
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to fetch reviews";
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 const reviewSlice = createSlice({
   name: SLICE_NAME,
   initialState,
@@ -57,6 +78,20 @@ const reviewSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+
+    builder
+      .addCase(getAllReviews.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllReviews.fulfilled, (state, action) => {
+        state.loading = false;
+        state.reviews = action.payload;
+      })
+      .addCase(getAllReviews.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      }); 
   },
 });
 
