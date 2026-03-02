@@ -1,0 +1,77 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 90;
+}
+
+.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.preview {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 420px;
+  height: 100vh;
+  background: #fff;
+  padding: 24px;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  transition: right 0.35s ease;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.open {
+  right: 0;
+}
+
+.card {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+  p {
+    font-weight: 600;
+  }
+
+  span {
+    color: #b88e2f;
+  }
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+
+  button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+.checkout {
+  background: #b88e2f !important;
+  color: white;
+  border: none !important;
+}
