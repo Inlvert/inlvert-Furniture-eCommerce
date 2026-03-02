@@ -143,3 +143,8 @@ export const createReview = async (reviewData: {
   });
   return response.data;
 }
+
+export const getAllReviewsOneProduct = async (productId: string) => {
+  const response = await httpClient.get(`/reviews/product/${productId}`);
+  return response.data;
+};
