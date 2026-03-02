@@ -11,6 +11,7 @@ import ButtonAddToCartV2 from "../ButtonAddToCartV2/ButtonAddToCartV2";
 import ProductTabs from "../ProductTabs/ProductTabs";
 import Rating from "../Rating/Rating";
 import ReviewsForm from "../ReviewsForm/ReviewsForm";
+import ReviewsList from "../ReviewsList/ReviewsList";
 
 type Product = {
   _id: string;
@@ -129,7 +130,9 @@ export default function ProductDetailsView({ product }: { product: Product }) {
           {
             id: "reviews",
             label: "Reviews",
-            content: <ReviewsForm />,
+            content: <><ReviewsList />
+              <ReviewsForm />
+            </>,
           },
         ]}
       />
