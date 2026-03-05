@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import AuthInitializer from "@/components/AuthInitializer/AuthInitializer";
+import CartPreview from "@/components/CartPreview/CartPreview";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Providers>
           <AuthInitializer />
           {children}
+          <CartPreview />
         </Providers>
       </body>
     </html>
