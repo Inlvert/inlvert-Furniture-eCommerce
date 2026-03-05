@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Review, ReviewDocument } from './schema/reviews.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -40,6 +40,13 @@ export class ReviewsService {
   }
 
   async findByProduct(productId: string): Promise<ReviewDocument[]> {
-    return this.reviewModel.find({ productId }).exec();
+    
+    if (!Types.ObjectId.isValid(productId)) {
+      throw new BadRequestException('Invalid productId');
+    }
+
+    return this.reviewModel.find({
+      productId: new Types.ObjectId(productId),
+    }).populate('userId', 'firstName lastName').exec();
   }
 }
