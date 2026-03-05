@@ -4,7 +4,7 @@ import { useState } from "react";
 import styles from "./ProductDetailsView.module.scss";
 import placeholderImg from "@/assets/placeholder.png";
 import { useAppDispatch } from "@/redux/hooks";
-import { addProductToCart } from "@/redux/slices/cartProductSlise";
+import { addProductToCart, getProductsInCart } from "@/redux/slices/cartProductSlise";
 import VariantSelector from "../VariantSelector/VariantSelector";
 import Quantity from "../Quantity/Quantity";
 import ButtonAddToCartV2 from "../ButtonAddToCartV2/ButtonAddToCartV2";
@@ -12,6 +12,7 @@ import ProductTabs from "../ProductTabs/ProductTabs";
 import Rating from "../Rating/Rating";
 import ReviewsForm from "../ReviewsForm/ReviewsForm";
 import ReviewsList from "../ReviewsList/ReviewsList";
+import { showPreview } from "@/redux/slices/cartPreviewSlice";
 
 type Product = {
   _id: string;
@@ -53,12 +54,7 @@ export default function ProductDetailsView({ product }: { product: Product }) {
         color: variant.color,
       }),
     );
-    console.log("Added to cart:", {
-      productId: product._id,
-      quantity: qty,
-      size: variant.size,
-      color: variant.color,
-    });
+    dispatch(showPreview());
   }
 
   return (
