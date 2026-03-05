@@ -1,29 +1,21 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-interface Product {
-  _id: string;
-  title: string;
-  price: number;
-  image: string;
-}
+const SLICE_NAME = "cartPreview";
 
 interface CartPreviewState {
   isOpen: boolean;
-  product: Product | null;
 }
 
 const initialState: CartPreviewState = {
   isOpen: false,
-  product: null,
 };
 
 const cartPreviewSlice = createSlice({
-  name: "cartPreview",
+  name: SLICE_NAME,
   initialState,
   reducers: {
-    showPreview(state, action: PayloadAction<Product>) {
+    showPreview(state) {
       state.isOpen = true;
-      state.product = action.payload;
     },
     hidePreview(state) {
       state.isOpen = false;
