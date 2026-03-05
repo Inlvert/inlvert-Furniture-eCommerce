@@ -4,8 +4,9 @@
   background: rgba(0, 0, 0, 0.35);
   opacity: 0;
   pointer-events: none;
-  transition: 0.3s;
+  transition: opacity 0.3s ease;
   z-index: 90;
+  backdrop-filter: blur(2px);
 }
 
 .show {
@@ -18,33 +19,77 @@
   top: 0;
   right: -420px;
   width: 420px;
-  height: 100vh;
-  background: #fff;
-  padding: 24px;
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-  transition: right 0.35s ease;
+  height: auto;
+  background: #ffffff;
+  padding: 28px 24px;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.08);
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .open {
   right: 0;
 }
 
-.card {
+.header {
   display: flex;
-  gap: 14px;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 
-  p {
+  h3 {
+    font-size: 20px;
     font-weight: 600;
+    color: #000;
+  }
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  color: #000;
+
+  &:hover {
+    transform: rotate(90deg);
+  }
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  padding-right: 4px;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
   }
 
-  span {
-    color: #b88e2f;
+  &::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 6px;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fafafa;
+  transition: 0.2s ease;
+  color: #000;
+
+  &:hover {
+    background: #f2f2f2;
   }
 }
 
@@ -52,26 +97,56 @@
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
 }
 
-.actions {
-  margin-top: auto;
+.info {
+  flex: 1;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 6px;
 
-  button {
-    flex: 1;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #000;
-    background: transparent;
-    cursor: pointer;
+  p {
+    font-weight: 600;
+    font-size: 15px;
   }
+
+  span {
+    font-size: 14px;
+    color: #b88e2f;
+  }
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.6;
+  transition: 0.2s ease;
+  color: #000;
+
+  &:hover {
+    opacity: 1;
+    transform: rotate(360deg);
+    color: red;
+  }
+}
+
+.total {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 12px;
+  color: #000;
 }
 
 .checkout {
   background: #b88e2f !important;
-  color: white;
+  color: #fff !important;
   border: none !important;
+
+  &:hover {
+    background: #a67d22 !important;
+  }
 }
