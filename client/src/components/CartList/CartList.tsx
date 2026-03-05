@@ -17,7 +17,6 @@ export default function CartList() {
     dispatch(getProductsInCart());
   }, [dispatch]);
 
-  // Сумарна ціна з захистом від NaN
   const total = useMemo(
     () =>
       items.reduce(
