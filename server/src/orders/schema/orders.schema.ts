@@ -42,9 +42,11 @@ export class Order {
       country: { type: String, required: true },
       address: { type: String, required: true },
       city: { type: String, required: true },
-      zip: { type: String, required: true },
+      province: { type: String }, // Optional field, can be left empty
+      zip: { type: String },
       phone: { type: String, required: true },
       email: { type: String, required: true },
+      note: { type: String }, // Optional field, can be left empty
     },
     required: true,
   })
@@ -54,9 +56,11 @@ export class Order {
     country: string;
     address: string;
     city: string;
-    zip: string;
+    province?: string;
+    zip?: string;
     phone: string;
     email: string;
+    note?: string;
   };
 
   @Prop({ required: true })
