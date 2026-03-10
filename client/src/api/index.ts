@@ -24,14 +24,15 @@ export interface CartItem {
   productId: Product;
   quantity: number;
 }
-  
 
 // Request interceptor
 httpClient.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("accessToken");
+
+    console.log("Request interceptor - token:", token);
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -72,6 +73,7 @@ export const getProducts = async (page: number, limit: number) => {
 
 export const login = (userData: LoginDto) => {
   const response = httpClient.post("/auth/login", userData);
+  console.log("Login response:", response);
   return response;
 };
 
@@ -142,9 +144,28 @@ export const createReview = async (reviewData: {
     comment: reviewData.comment,
   });
   return response.data;
-}
+};
 
 export const getAllReviewsOneProduct = async (productId: string) => {
   const response = await httpClient.get(`/reviews/product/${productId}`);
+  return response.data;
+};
+
+export const createOrder = async (orderData: {
+  items: CartItem[];
+  shippingAddress: {
+    firstName: string;
+    lastName: string;
+    company?: string;
+    address1: string;
+    address2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  note?: string;
+}) => {
+  const response = await httpClient.post(`/orders`, orderData);
   return response.data;
 };
