@@ -4,14 +4,17 @@ import {
   Post,
   Req,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import type { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly orderService: OrdersService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   createOrder(
     @Req() req: Request,
