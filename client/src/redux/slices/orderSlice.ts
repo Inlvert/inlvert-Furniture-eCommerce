@@ -35,6 +35,27 @@ const createOrder = createAsyncThunk(
   },
 );
 
+const getAllOrders = createAsyncThunk(
+  `${SLICE_NAME}/getAllOrders`,
+  async (_, thunkAPI) => {
+    try {
+      const data = await API.getAllOrders();
+
+      return data;
+
+    } catch (error: any) {
+      console.log(
+        "GET ALL ORDERS ERROR:",
+        error?.response?.data || error.message,
+      );
+
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to fetch orders",
+      );
+    }
+  }
+)
+
 const orderSlice = createSlice({
   name: SLICE_NAME,
   initialState,
@@ -55,11 +76,27 @@ const orderSlice = createSlice({
         state.error = action.payload as string;
         console.log("CREATE ORDER REJECTED:", action.payload);
       });
+
+    builder
+      .addCase(getAllOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.items = action.payload; // Assuming the API returns a list of orders
+      })
+      .addCase(getAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+        console.log("GET ALL ORDERS REJECTED:", action.payload);
+      });
   },
 });
 
 const { reducer: orderReducer, actions } = orderSlice;
 
-export { createOrder };
+export { createOrder, getAllOrders };
 
 export default orderReducer;
