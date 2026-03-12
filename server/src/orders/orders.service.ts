@@ -38,6 +38,12 @@ export class OrdersService {
     });
     return newOrder.save();
   }
+
+  async getAllOrders(userId: string) {
+    const orders = await this.orderModel
+      .find({ userId })
+      .populate('items.productId')
+      .exec();
+    return orders;
+  }
 }
-
-

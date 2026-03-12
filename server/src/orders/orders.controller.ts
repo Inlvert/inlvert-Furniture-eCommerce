@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UnauthorizedException,
@@ -9,6 +10,7 @@ import {
 import { OrdersService } from './orders.service';
 import type { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { use } from 'passport';
 
 @Controller('orders')
 export class OrdersController {
@@ -53,5 +55,21 @@ export class OrdersController {
       totalPrice,
     );
     // Implementation for creating an order
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  getAllOrders(
+    @Req() req: Request
+  ) {
+      const userId = (req.user as any)?.id;
+      if (!userId) {
+        throw new UnauthorizedException('No user in request');
+      }
+      // You can implement logic here to fetch orders for the authenticated user
+      // For example, you might want to call a service method like this:
+      // return this.orderService.getOrdersByUserId(userId);
+      return this.orderService.getAllOrders(userId); // Placeholder for fetching all orders
+    // Implementation for fetching all orders
   }
 }
