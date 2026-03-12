@@ -11,6 +11,7 @@ import { CartProductsModule } from './cart-products/cart-products.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { CompareModule } from './compare/compare.module';
 import { OrdersModule } from './orders/orders.module';
+import { PaymentsModule } from './payments/payments.module';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { OrdersModule } from './orders/orders.module';
     ReviewsModule,
     CompareModule,
     OrdersModule,
+    PaymentsModule,
   ],
   controllers: [AppController, ProductsController],
   providers: [AppService],
