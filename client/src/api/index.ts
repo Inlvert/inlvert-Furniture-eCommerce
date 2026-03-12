@@ -169,3 +169,9 @@ export const createOrder = async (orderData: {
   const response = await httpClient.post(`/orders`, orderData);
   return response.data;
 };
+
+
+export const getAllOrders = async () => {
+  const response = await httpClient.get(`/orders`);
+  return response.data;
+}
