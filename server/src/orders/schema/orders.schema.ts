@@ -67,6 +67,13 @@ export class Order {
   totalPrice!: number;
 
   @Prop({
+    enum: ['stripe', 'paypal'],
+    required: true,
+    default: 'stripe',
+  })
+  paymentMethod!: string;
+
+  @Prop({
     enum: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
   })
