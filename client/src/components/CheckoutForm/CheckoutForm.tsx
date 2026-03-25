@@ -1,16 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import styles from "./CheckoutForm.module.scss";
 import { Formik, Form, Field } from "formik";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createOrder } from "@/redux/slices/orderSlice";
 
 export default function CheckoutForm() {
+  const dispatch = useAppDispatch();
+
   const { items } = useAppSelector((state) => state.cartProduct);
   const user = useAppSelector((state) => state.auth?.user);
-  console.log("User in checkout form:", user);
+  
 
-  const dispatch = useAppDispatch();
+  const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">(
+    "stripe",
+  );
+  const [loading, setLoading] = useState(false);
 
   const total = items.reduce(
     (sum, i) => sum + (i.productId?.price || 0) * (i.quantity || 0),
@@ -20,50 +26,73 @@ export default function CheckoutForm() {
   const initialValues = {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
-    company: "Test Company",
-    country: "Test Country",
-    address: "Test Address",
-    city: "Test City",
-    province: "Test Province",// Optional field, can be left empty
+    country: "USA",
+    address: "test",
+    city: "test",
+    province: "test",
     zip: "11111",
     phone: "1111111111",
     email: user?.email || "",
-    note: "Test note", // Optional field, can be left empty
+    note: "test",
   };
 
-  const handleSubmit = (values: typeof initialValues) => {
-    const orderData = {
-      items: items.map((item) => ({
-        productId: item.productId._id,
-        quantity: item.quantity,
-        price: item.productId.price,
-      })),
+  const handleSubmit = async (values: typeof initialValues) => {
+    if (!items.length) return;
 
-      billingDetails: {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        country: values.country,
-        address: values.address,
-        city: values.city,
-        zip: values.zip,
-        phone: values.phone,
-        email: values.email,
-      },
+    setLoading(true);
 
-      totalPrice: total,
-    };
-    console.log("Form submitted with values:", values);
-    dispatch(createOrder(orderData));
+    try {
+      const orderData = {
+        paymentMethod,
+
+        items: items.map((item) => ({
+          productId: item.productId._id,
+          quantity: item.quantity,
+          // price: item.productId.price,
+          color: item.color,
+          size: item.size,
+        })),
+
+        billingDetails: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          country: values.country,
+          address: values.address,
+          city: values.city,
+          province: values.province,
+          zip: values.zip,
+          phone: values.phone,
+          email: values.email,
+          note: values.note,
+        },
+
+        // totalPrice: total,
+      };
+
+      const res = await dispatch(createOrder(orderData)).unwrap();
+
+      if (res?.checkoutUrl) {
+        window.location.href = res.checkoutUrl;
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePayment = (
+    method: "stripe" | "paypal",
+    submitForm: () => void,
+  ) => {
+    setPaymentMethod(method);
+    submitForm();
   };
 
   return (
     <div className={styles.wrapper}>
-      <Formik
-        enableReinitialize={true}
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-      >
-        {() => (
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ submitForm }) => (
           <Form className={styles.container}>
             {/* LEFT SIDE */}
             <div className={styles.billing}>
@@ -82,35 +111,27 @@ export default function CheckoutForm() {
               </div>
 
               <div className={styles.field}>
-                <label>Company Name (Optional)</label>
-                <Field name="company" />
-              </div>
-
-              <div className={styles.field}>
-                <label>Country / Region</label>
+                <label>Country</label>
                 <Field as="select" name="country">
                   <option>USA</option>
-                  <option>EUROPE</option>
+                  <option>EU</option>
                   <option>Ukraine</option>
                 </Field>
               </div>
 
               <div className={styles.field}>
-                <label>Street address</label>
+                <label>Address</label>
                 <Field name="address" />
               </div>
 
               <div className={styles.field}>
-                <label>Town / City</label>
+                <label>City</label>
                 <Field name="city" />
               </div>
 
               <div className={styles.field}>
                 <label>Province</label>
-                <Field as="select" name="province">
-                  <option>Western Province</option>
-                  <option>Central Province</option>
-                </Field>
+                <Field name="province" />
               </div>
 
               <div className={styles.field}>
@@ -124,7 +145,7 @@ export default function CheckoutForm() {
               </div>
 
               <div className={styles.field}>
-                <label>Email address</label>
+                <label>Email</label>
                 <Field name="email" type="email" />
               </div>
 
@@ -135,7 +156,7 @@ export default function CheckoutForm() {
 
             {/* RIGHT SIDE */}
             <div className={styles.summary}>
-              <h3>Product</h3>
+              <h3>Your order</h3>
 
               {items.map((item, index) => {
                 const product = item.productId;
@@ -146,6 +167,7 @@ export default function CheckoutForm() {
                     <span>
                       {product.name} × {item.quantity}
                     </span>
+
                     <span>${(product.price * item.quantity).toFixed(2)}</span>
                   </div>
                 );
@@ -161,26 +183,25 @@ export default function CheckoutForm() {
                 <span>${total.toFixed(2)}</span>
               </div>
 
-              <div className={styles.payment}>
-                <label>
-                  <input type="radio" name="payment" defaultChecked />
-                  Direct Bank Transfer
-                </label>
+              <div className={styles.paymentButtons}>
+                <button
+                  type="button"
+                  className={styles.orderBtn}
+                  disabled={loading}
+                  onClick={() => handlePayment("stripe", submitForm)}
+                >
+                  {loading ? "Processing..." : "Pay with Card"}
+                </button>
 
-                <p>
-                  Make your payment directly into our bank account. Please use
-                  your Order ID as the payment reference.
-                </p>
-
-                <label>
-                  <input type="radio" name="payment" />
-                  Cash On Delivery
-                </label>
+                <button
+                  type="button"
+                  className={styles.orderBtn}
+                  disabled={loading}
+                  onClick={() => handlePayment("paypal", submitForm)}
+                >
+                  {loading ? "Processing..." : "Pay with PayPal"}
+                </button>
               </div>
-
-              <button type="submit" className={styles.orderBtn}>
-                Place order
-              </button>
             </div>
           </Form>
         )}
