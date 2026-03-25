@@ -12,6 +12,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { CompareModule } from './compare/compare.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
+import { WebhookModule } from './webhook/webhook.module';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { PaymentsModule } from './payments/payments.module';
     CompareModule,
     OrdersModule,
     PaymentsModule,
+    WebhookModule,
   ],
   controllers: [AppController, ProductsController],
   providers: [AppService],
