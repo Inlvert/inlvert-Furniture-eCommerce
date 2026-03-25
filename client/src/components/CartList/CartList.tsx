@@ -8,6 +8,7 @@ import {
   updateCartProductQuantity,
   removeProductFromCart,
 } from "@/redux/slices/cartProductSlise";
+import { useRouter } from "next/navigation";
 
 export default function CartList() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,12 @@ export default function CartList() {
     [items]
   );
 
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    router.push("/checkout");
+  };
+
   return (
     <div className={styles.layout}>
       {/* LEFT — TABLE */}
@@ -39,7 +46,7 @@ export default function CartList() {
         </div>
 
         {items.map((item) => {
-          // Пропускаємо елементи без productId
+          
           if (!item.productId) return null;
 
           const img = item.productId.images?.[0]
@@ -68,7 +75,7 @@ export default function CartList() {
                     dispatch(
                       updateCartProductQuantity({
                         productId: item.productId._id,
-                        quantity: Math.max(1, item.quantity - 1), // мінімум 1
+                        quantity: Math.max(1, item.quantity - 1),
                       })
                     )
                   }
@@ -121,7 +128,8 @@ export default function CartList() {
           <span>Rs. {total.toLocaleString()}</span>
         </div>
 
-        <button className={styles.checkout}>Check Out</button>
+        <button className={styles.checkout} onClick={handleRedirect}>Check Out</button>
+
       </div>
     </div>
   );
