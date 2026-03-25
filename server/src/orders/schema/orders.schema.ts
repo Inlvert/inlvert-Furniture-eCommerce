@@ -18,11 +18,6 @@ export class Order {
         min: 1,
       },
 
-      price: {
-        type: Number,
-        required: true,
-      },
-
       color: String,
       size: String,
     },
@@ -30,7 +25,6 @@ export class Order {
   items!: {
     productId: Types.ObjectId;
     quantity: number;
-    price: number;
     color?: string;
     size?: string;
   }[];
