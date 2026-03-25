@@ -15,29 +15,33 @@ export class StripeService {
     );
   }
 
-  async createCheckoutSession(product: any) {
+  async createCheckoutSession(items: any[], orderId: string) {
     const session = await this.stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: product.name,
-            },
-            unit_amount: product.price * 100,
+      line_items: items.map((item) => ({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item.name,
           },
-          quantity: 1,
+          unit_amount: Math.round(Number(item.price) * 100),
         },
-      ],
+        quantity: Number(item.quantity),
+      })),
+      metadata: {
+        orderId,
+      },
+
       success_url: `${this.configService.get('FRONTEND_BASE_URL')}/success`,
       cancel_url: `${this.configService.get('FRONTEND_BASE_URL')}/cancel`,
     });
 
-    console.log('Created Stripe checkout session:', session);
+    console.log('Created Stripe checkout session:', session.id);
+    console.log('Created Stripe checkout session:', session.metadata);
 
-    return session.url;
+
+    return session;
   }
 
   getStripeInstance() {
