@@ -20,15 +20,16 @@ export class OrdersController {
   @Post()
   createOrder(
     @Req() req: Request,
-    // @Body('userId') userId: string,
-    @Body('cartId') cartId: string,
+
+    @Body('paymentMethod')
+    paymentMethod: 'stripe' | 'paypal',
+
     @Body('items')
     items: {
       productId: string;
       quantity: number;
-      price: number;
-      color?: string;
-      size?: string;
+      color?: string | undefined;
+      size?: string | undefined;
     }[],
     @Body('billingDetails')
     billingDetails: {
@@ -40,6 +41,7 @@ export class OrdersController {
       zip: string;
       phone: string;
       email: string;
+      note?: string;
     },
     @Body('totalPrice') totalPrice: number,
   ) {
@@ -49,27 +51,24 @@ export class OrdersController {
     }
     return this.orderService.createOrder(
       userId,
-      cartId,
+      paymentMethod,
       items,
       billingDetails,
       totalPrice,
     );
-    // Implementation for creating an order
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllOrders(
-    @Req() req: Request
-  ) {
-      const userId = (req.user as any)?.id;
-      if (!userId) {
-        throw new UnauthorizedException('No user in request');
-      }
-      // You can implement logic here to fetch orders for the authenticated user
-      // For example, you might want to call a service method like this:
-      // return this.orderService.getOrdersByUserId(userId);
-      return this.orderService.getAllOrders(userId); // Placeholder for fetching all orders
+  getAllOrders(@Req() req: Request) {
+    const userId = (req.user as any)?.id;
+    if (!userId) {
+      throw new UnauthorizedException('No user in request');
+    }
+    // You can implement logic here to fetch orders for the authenticated user
+    // For example, you might want to call a service method like this:
+    // return this.orderService.getOrdersByUserId(userId);
+    return this.orderService.getAllOrders(userId); // Placeholder for fetching all orders
     // Implementation for fetching all orders
   }
 }
