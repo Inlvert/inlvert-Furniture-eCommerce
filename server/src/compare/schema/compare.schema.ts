@@ -10,7 +10,7 @@ export class Compare {
   userId!: Types.ObjectId;
   
   @Prop({
-    type: [{ type: Types.ObjectId, ref: 'Product' }],
+    productId: [{ type: Types.ObjectId, ref: 'Product' }],
     default: [],
   })
   products!: Types.ObjectId[];
