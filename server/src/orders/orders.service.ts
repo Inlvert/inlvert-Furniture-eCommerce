@@ -85,7 +85,9 @@ export class OrdersService {
         stripeItems,
         newOrder._id.toString(),
       );
-      return { checkoutUrl: session.url };
+
+      console.log('PayPal session created:', session);
+      return { checkoutUrl: session.links.find((link) => link.rel === 'approve')?.href };
     }
   }
 
