@@ -74,8 +74,8 @@ export default function CheckoutForm() {
       if (res?.checkoutUrl) {
         window.location.href = res.checkoutUrl;
       }
-    } catch (error) {
-      console.error("Checkout error:", error);
+    } catch (error: any) {
+      console.error("Checkout error:", error.message || error);
     } finally {
       setLoading(false);
     }
