@@ -2,6 +2,7 @@
 
 import { Product } from "@/types/product.type";
 import axios from "axios";
+import { date } from "yup";
 
 const httpClient = axios.create({
   baseURL: "http://localhost:5000",
@@ -175,3 +176,28 @@ export const getAllOrders = async () => {
   const response = await httpClient.get(`/orders`);
   return response.data;
 }
+
+export const cretaeStripeCheckout = async (items: CartItem[]) => {
+  const response = await httpClient.post(`/payments/stripe`, items);
+  return response.data;
+};
+
+export const addProductToCompare = async (productId: string) => {
+  const response = await httpClient.post(`/compare/add`, { productId });
+  return response.data;
+};
+
+export const getComparedProducts = async () => {
+  const response = await httpClient.get(`/compare`);
+  return response.data;
+};
+
+export const removeProductFromCompare = async (productId: string) => {
+  const response = await httpClient.delete(`/compare/remove`, { data: { productId } });
+  return response.data;
+};
+
+export const clearComparedProducts = async () => {
+  const response = await httpClient.delete(`/compare/clear`);
+  return response.data;
+};
