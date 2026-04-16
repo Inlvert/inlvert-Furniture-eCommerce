@@ -6,6 +6,7 @@ import styles from "./ProductItem.module.scss";
 import placeholderImg from "@/assets/placeholder.png";
 import { useAppDispatch } from "@/redux/hooks";
 import { addProductToCart } from "@/redux/slices/cartProductSlise";
+import { addProductToCompare } from "@/redux/slices/compareSlice";
 
 type Product = {
   _id: string;
@@ -26,6 +27,11 @@ export default function ProductItem({ product }: { product: Product }) {
       }),
     );
   };
+
+  const hendleAddToCompare = () => {
+    dispatch(addProductToCompare(product._id));
+  };
+
   const imageSrc = product.images?.length
     ? `http://localhost:5000/images/${encodeURIComponent(product.images[0])}`
     : placeholderImg.src;
@@ -47,10 +53,17 @@ export default function ProductItem({ product }: { product: Product }) {
 
       <div className={styles.hoverActions}>
         <ButtonAddToCart text="Add to cart" onClick={handleAddToCart} />
-
-        <Link href={`/products/${product._id}`} className={styles.detailsLink}>
-          Details
-        </Link>
+        <div>
+          <Link
+            href={`/products/${product._id}`}
+            className={styles.detailsLink}
+          >
+            Details
+          </Link>
+          <button onClick={hendleAddToCompare} className={styles.detailsLink}>
+            Compare
+          </button>
+        </div>
       </div>
     </article>
   );
