@@ -6,6 +6,7 @@ import cartProductReducer from "./slices/cartProductSlise";
 import reviewReducer from "./slices/reviewSlice";
 import cartPreviewReducer from "./slices/cartPreviewSlice";
 import orderReducer from "./slices/orderSlice";
+import compareReducer from "./slices/compareSlice";
 
 
 export const store = configureStore({
@@ -16,6 +17,7 @@ export const store = configureStore({
     reviews: reviewReducer,
     cartPreview: cartPreviewReducer,
     order: orderReducer,
+    compare: compareReducer,
   },
 });
 
