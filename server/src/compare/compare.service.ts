@@ -13,7 +13,10 @@ export class CompareService {
   async getCompareByUser(userId: string) {
     const compare = await this.compareModel
       .findOne({ userId })
-      .populate('products');
+      .populate({
+        path: 'products',
+        model: 'Product',
+      });
     if (!compare) {
       return { products: [] };
     }
