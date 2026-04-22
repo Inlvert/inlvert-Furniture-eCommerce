@@ -98,7 +98,7 @@ export class Product {
   @Prop()
   legHeight!: number;
 
-  @Prop()
+  @Prop({default: 12})
   warrantySummary!: number;
 
   @Prop({
@@ -107,7 +107,7 @@ export class Product {
   })
   warrantyServiceType!: string;
 
-  @Prop()
+  @Prop({default: 'The Warranty Covers Manufacturing Defects And Faulty Material.'})
   coveredInWarranty!: string;
 
   @Prop({
