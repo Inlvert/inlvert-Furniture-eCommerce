@@ -4,13 +4,14 @@ import { useSelector } from "react-redux";
 import styles from "./CompareTable.module.scss";
 import CompareItem from "../CompareItem/CompareItem";
 import { Product } from "@/types/product.type";
-import React from "react";
+import React, { lazy } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import { useAppDispatch } from "@/redux/hooks";
 import { addProductToCart } from "@/redux/slices/cartProductSlise";
 import ButtonAddToCart from "../ButtonAddToCart/ButtonAddToCart";
 import { removeProductFromCompare } from "@/redux/slices/compareSlice";
+import { rows } from "./rows";
 
 export default function CompareTable() {
   const dispatch = useAppDispatch();
@@ -32,21 +33,6 @@ export default function CompareTable() {
     [styles.productGrid4]: items.length === 4,
   });
 
-  const rows = [
-    { label: "General", type: "section" },
-
-    { label: "Price", key: "price" },
-    { label: "Category", key: "category" },
-    { label: "Stock", key: "stock" },
-    { label: "SKU", key: "sku" },
-    { label: "Rating", key: "averageRating" },
-    { label: "Reviews", key: "reviewsCount" },
-
-    { label: "Product", type: "section" },
-    { label: "Description", key: "description" },
-    { label: "", key: "button" },
-  ];
-
   const handleAddToCart = (items: any) => {
     dispatch(
       addProductToCart({
@@ -60,9 +46,12 @@ export default function CompareTable() {
     dispatch(removeProductFromCompare(productId));
   };
 
-  const value = (item: any, key: string) => {
+  const value = (item: any, key: string, type: string) => {
+    if (type === "section") return "";
     if (key === "price") return `$${item.price}`;
     if (key === "averageRating") return `⭐ ${item.averageRating ?? 0}`;
+    if (key === "warrantySummary")
+      return `${item.warrantySummary ?? 0} Year Manufacturing Warranty`;
     if (key === "button")
       return (
         <ButtonAddToCart
@@ -71,7 +60,7 @@ export default function CompareTable() {
         />
       );
 
-    return item[key] ?? "";
+    return item[key] ?? "-";
   };
 
   return (
@@ -110,7 +99,7 @@ export default function CompareTable() {
 
               {items.map((item) => (
                 <div key={item._id + row.key} className={styles.value}>
-                  {value(item, row.key!)}
+                  {value(item, row.key!, row.type!)}
                 </div>
               ))}
             </React.Fragment>
