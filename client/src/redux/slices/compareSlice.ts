@@ -6,21 +6,25 @@ const SLICE_NAME = "compare";
 interface CompareState {
   products: any[]; // You can replace 'any' with a more specific type based on your product structure
   loading: boolean;
-  error: string | null;
+  error: Record<string, string>;
+  globalError: string | null;
 }
 
 const initialState: CompareState = {
   products: [],
   loading: false,
-  error: null,
+  error: {},
+  globalError: null,
 };
 
 export const addProductToCompare = createAsyncThunk(
   `${SLICE_NAME}/addProductToCompare`,
   async (productId: string, thunkAPI) => {
     try {
-      const data = await API.addProductToCompare(productId);
-      return data.product;
+      const response = await API.addProductToCompare(productId);
+      console.log("API response for addProductToCompare:", response);
+
+      return response.products;
     } catch (error: any) {
       console.log(
         "ADD TO COMPARE ERROR:",
@@ -80,12 +84,12 @@ const compareSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addProductToCompare.pending, (state) => {
       state.loading = true;
-      state.error = null;
+      state.error = {};
     });
     builder.addCase(addProductToCompare.fulfilled, (state, action) => {
       state.loading = false;
+      // state.products.push(action.payload);
       const product = action.payload;
-
       if (!product?._id) return;
 
       if (!state.products.some((p) => p._id === product._id)) {
@@ -94,25 +98,27 @@ const compareSlice = createSlice({
     });
     builder.addCase(addProductToCompare.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      const id = action.meta.arg;
+      state.error[id] = action.payload as string;
     });
 
     builder.addCase(getAllCompareProducts.pending, (state) => {
       state.loading = true;
-      state.error = null;
+      state.error = {};
     });
     builder.addCase(getAllCompareProducts.fulfilled, (state, action) => {
       state.loading = false;
       state.products = action.payload;
+      console.log("action.payload", action.payload);
     });
     builder.addCase(getAllCompareProducts.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.globalError = action.payload as string;
     });
 
     builder.addCase(removeProductFromCompare.pending, (state) => {
       state.loading = true;
-      state.error = null;
+      state.error = {};
     });
     builder.addCase(removeProductFromCompare.fulfilled, (state, action) => {
       state.loading = false;
@@ -121,7 +127,8 @@ const compareSlice = createSlice({
     });
     builder.addCase(removeProductFromCompare.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      const id = action.meta.arg;
+      state.error[id] = action.payload as string;
     });
 
   },
