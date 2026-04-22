@@ -11,12 +11,10 @@ export class CompareService {
   ) {}
 
   async getCompareByUser(userId: string) {
-    const compare = await this.compareModel
-      .findOne({ userId })
-      .populate({
-        path: 'products',
-        model: 'Product',
-      });
+    const compare = await this.compareModel.findOne({ userId }).populate({
+      path: 'products',
+      model: 'Product',
+    });
     if (!compare) {
       return { products: [] };
     }
@@ -36,7 +34,7 @@ export class CompareService {
     const populatedCompare = await compare.populate('products');
 
     if (populatedCompare.products.length >= 4) {
-      throw new Error('You can only compare up to 4 products');
+      throw new BadRequestException('You can only compare up to 4 products');
     }
     if (compare.products.includes(new Types.ObjectId(productId))) {
       throw new BadRequestException('Product already in compare');
