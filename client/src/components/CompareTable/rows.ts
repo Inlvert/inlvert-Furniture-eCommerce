@@ -1,0 +1,32 @@
+export const rows = [
+    { label: "General", type: "section" },
+    { label: "Sales Package", key: "salesPackage" },
+    { label: "Model Number", key: "modelNumber" },
+    { label: "Secondary Material", key: "secondaryMaterial" },
+    { label: "Configuration", key: "configuration" },
+    { label: "Upholstery Material", key: "upholsteryMaterial" },
+    { label: "Upholstery Color", key: "upholsteryColor" },
+    
+    { label: "Product", type: "section" },
+    { label: "Filling Material", key: "fillingMaterial" },
+    { label: "Finish Type", key: "finishType" },
+    { label: "Adjustable Headrest", key: "adjustableHeadrest" },
+    { label: "Maximum Load Capacity", key: "maximumLoadCapacity" },
+    { label: "Origin of Manufacture", key: "originOfManufacture" },
+
+    { label: "Dimensions", type: "section" },
+    { label: "Height", key: "height" },
+    { label: "Width", key: "width" },
+    { label: "Depth", key: "depth" },
+    { label: "Weight", key: "weight" },
+    { label: "Seat Height", key: "seatHeight" },
+    { label: "Leg Height", key: "legHeight" },
+
+    { label: "Warranty", type: "section" },
+    { label: "Warranty Summary", key: "warrantySummary" },
+    { label: "Warranty Service Type", key: "warrantyServiceType" },
+    { label: "Covered in Warranty", key: "coveredInWarranty" },
+    { label: "Not Covered in Warranty", key: "notCoveredInWarranty" },
+    { label: "Domestic Warranty", key: "domesticWarranty" },
+    { label: "", key: "button" },
+  ];
