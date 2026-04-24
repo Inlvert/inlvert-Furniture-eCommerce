@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.title {
+  font-size: 24px;
+  color: #000;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+  color: #7c7c7c;
+
+  label {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select {
+    height: 45px;
+    border: 1px solid #646464;
+    border-radius: 6px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  textarea {
+    min-height: 120px;
+    border: 1px solid #646464;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    resize: vertical;
+  }
+}
