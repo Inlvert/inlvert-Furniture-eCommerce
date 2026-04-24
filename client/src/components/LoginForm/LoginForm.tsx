@@ -54,8 +54,7 @@ export default function LoginForm() {
           <h2 className={styles.title}>Login</h2>
 
           {status && <p className={styles.error}>{status}</p>}
-
-          {/* Email */}
+          
           <div className={styles.field}>
             <Field
               name="email"
@@ -69,8 +68,7 @@ export default function LoginForm() {
               className={styles.error}
             />
           </div>
-
-          {/* Password */}
+          
           <div className={styles.field}>
             <Field
               name="password"
@@ -84,8 +82,7 @@ export default function LoginForm() {
               className={styles.error}
             />
           </div>
-
-          {/* Login */}
+          
           <button
             className={styles.submit}
             type="submit"
@@ -102,8 +99,7 @@ export default function LoginForm() {
           <div className={styles.divider}>
             <span>or</span>
           </div>
-
-          {/* 🌍 Google OAuth */}
+          
           <button
             type="button"
             onClick={loginWithGoogle}

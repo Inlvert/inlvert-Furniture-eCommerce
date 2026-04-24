@@ -30,7 +30,7 @@ export default function Navbar() {
           <Link href="/about" className="hover:font-bold transition px-4">
             About
           </Link>
-          <Link href="/constact" className="hover:font-bold transition px-4">
+          <Link href="/contact" className="hover:font-bold transition px-4">
             Contact
           </Link>
         </nav>
