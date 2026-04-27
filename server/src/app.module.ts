@@ -13,6 +13,10 @@ import { CompareModule } from './compare/compare.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { MailsController } from './mails/mails.controller';
+import { MailsService } from './mails/mails.service';
+import { MailsModule } from './mails/mails.module';
+
 
 
 @Module({
@@ -34,8 +38,9 @@ import { WebhookModule } from './webhook/webhook.module';
     OrdersModule,
     PaymentsModule,
     WebhookModule,
+    MailsModule,
   ],
-  controllers: [AppController, ProductsController],
+  controllers: [AppController, ProductsController, MailsController],
   providers: [AppService],
 })
 export class AppModule {}
