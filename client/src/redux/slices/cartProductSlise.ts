@@ -114,7 +114,6 @@ const cartProductSlice = createSlice({
     builder.addCase(addProductToCart.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
-      console.log("REDUX PAYLOAD:", action.payload);
     });
     builder.addCase(getProductsInCart.pending, (state) => {
       state.loading = true;
