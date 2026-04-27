@@ -171,11 +171,10 @@ export const createOrder = async (orderData: {
   return response.data;
 };
 
-
 export const getAllOrders = async () => {
   const response = await httpClient.get(`/orders`);
   return response.data;
-}
+};
 
 export const cretaeStripeCheckout = async (items: CartItem[]) => {
   const response = await httpClient.post(`/payments/stripe`, items);
@@ -193,11 +192,27 @@ export const getComparedProducts = async () => {
 };
 
 export const removeProductFromCompare = async (productId: string) => {
-  const response = await httpClient.delete(`/compare/remove`, { data: { productId } });
+  const response = await httpClient.delete(`/compare/remove`, {
+    data: { productId },
+  });
   return response.data;
 };
 
 export const clearComparedProducts = async () => {
   const response = await httpClient.delete(`/compare/clear`);
   return response.data;
+};
+
+export const sendMessage = async (messageData: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) => {
+  try {
+    const response = await httpClient.post(`/mails/send`, messageData);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Failed to send message");
+  }
 };
