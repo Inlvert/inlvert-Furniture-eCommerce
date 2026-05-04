@@ -24,7 +24,7 @@ export default function Navbar() {
           <Link href="/" className="hover:font-bold transition px-4">
             Home
           </Link>
-          <Link href="/shop" className="hover:font-bold transition px-4">
+          <Link href="/products" className="hover:font-bold transition px-4">
             Shop
           </Link>
           <Link href="/about" className="hover:font-bold transition px-4">
