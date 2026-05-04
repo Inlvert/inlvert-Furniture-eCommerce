@@ -11,7 +11,6 @@ export default function CheckoutForm() {
 
   const { items } = useAppSelector((state) => state.cartProduct);
   const user = useAppSelector((state) => state.auth?.user);
-  
 
   const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">(
     "stripe",
@@ -45,13 +44,14 @@ export default function CheckoutForm() {
       const orderData = {
         paymentMethod,
 
-        items: items.map((item) => ({
-          productId: item.productId._id,
-          quantity: item.quantity,
-          // price: item.productId.price,
-          color: item.color,
-          size: item.size,
-        })),
+        items: items
+          .filter((item) => item.productId)
+          .map((item) => ({
+            productId: item.productId._id,
+            quantity: item.quantity,
+            color: item.color,
+            size: item.size,
+          })),
 
         billingDetails: {
           firstName: values.firstName,
@@ -91,7 +91,7 @@ export default function CheckoutForm() {
 
   return (
     <div className={styles.wrapper}>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
         {({ submitForm }) => (
           <Form className={styles.container}>
             {/* LEFT SIDE */}
