@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addProductToCart } from "@/redux/slices/cartProductSlise";
 import { addProductToCompare } from "@/redux/slices/compareSlice";
 import classNames from "classnames";
+import { showPreview } from "@/redux/slices/cartPreviewSlice";
 
 type Product = {
   _id: string;
@@ -32,6 +33,7 @@ export default function ProductItem({ product }: { product: Product }) {
         quantity: 1,
       }),
     );
+    dispatch(showPreview());
   };
 
   const hendleAddToCompare = async () => {
@@ -43,7 +45,7 @@ export default function ProductItem({ product }: { product: Product }) {
   // }
 
   const imageSrc = product.images?.length
-    ? `http://localhost:5000/images/${encodeURIComponent(product.images[0])}`
+    ? `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.images[0])}`
     : placeholderImg.src;
 
   return (
