@@ -81,16 +81,16 @@ export class Product {
   originOfManufacture!: string;
 
   @Prop()
-  Width!: number;
+  width!: number;
 
   @Prop()
-  Depth!: number;
+  depth!: number;
 
   @Prop()
-  Height!: number;
+  height!: number;
 
   @Prop()
-  Weight!: number;
+  weight!: number;
 
   @Prop()
   seatHeight!: number;
