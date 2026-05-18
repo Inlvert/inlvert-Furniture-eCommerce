@@ -4,13 +4,15 @@ import styles from "./CartPreview.module.scss";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { hidePreview } from "@/redux/slices/cartPreviewSlice";
 import { removeProductFromCart } from "@/redux/slices/cartProductSlise";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
 export default function CartPreview() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { isOpen } = useAppSelector((state) => state.cartPreview);
   const { items } = useAppSelector((state) => state.cartProduct);
-  
+
   const total = useMemo(
     () =>
       items.reduce(
@@ -19,19 +21,22 @@ export default function CartPreview() {
       ),
     [items],
   );
-  
+
   useEffect(() => {
     if (!isOpen) return;
 
     const timer = setTimeout(() => {
       dispatch(hidePreview());
-    }, 400000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [isOpen, dispatch]);
 
   if (!items || items.length === 0) return null;
 
+  const handleRedirect = () => {
+    router.push("/checkout");
+  };
 
   return (
     <>
@@ -57,7 +62,7 @@ export default function CartPreview() {
             if (!product) return null;
 
             const img = product.images?.[0]
-              ? `http://localhost:5000/images/${product.images[0]}`
+              ? `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.images[0])}`
               : "/placeholder.png";
 
             return (
@@ -83,7 +88,9 @@ export default function CartPreview() {
 
           <p className={styles.total}>Total: ${total}</p>
 
-          <button className={styles.checkout}>Checkout</button>
+          <button className={styles.checkout} onClick={handleRedirect}>
+            Checkout
+          </button>
         </div>
       </div>
     </>
