@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import style from "./Navbar.module.scss";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -127,18 +128,37 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <nav className="md:hidden absolute top-[100px] left-0 w-full bg-white shadow-md px-6 py-6 space-y-3 text-lg font-medium">
+        <nav className={style.mobileMenu}>
           <Link href="/" className="block hover:font-bold transition px-4">
             Home
+          </Link>
+
+          <Link
+            href="/products"
+            className="block hover:font-bold transition px-4"
+          >
+            Shop
+          </Link>
+          <Link href="/about" className="block hover:font-bold transition px-4">
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="block hover:font-bold transition px-4"
+          >
+            Contact
           </Link>
           <Link href="/login" className="block hover:font-bold transition px-4">
             Login
           </Link>
           <Link
-            href="/registration"
+            href="/compare"
             className="block hover:font-bold transition px-4"
           >
-            Registration
+            Compare
+          </Link>
+          <Link href="/cart" className="block hover:font-bold transition px-4">
+            Cart
           </Link>
         </nav>
       )}
