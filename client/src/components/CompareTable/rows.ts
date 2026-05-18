@@ -5,7 +5,7 @@ export const rows = [
     { label: "Secondary Material", key: "secondaryMaterial" },
     { label: "Configuration", key: "configuration" },
     { label: "Upholstery Material", key: "upholsteryMaterial" },
-    { label: "Upholstery Color", key: "upholsteryColor" },
+    { label: "Upholstery Color", key: "colors" },
     
     { label: "Product", type: "section" },
     { label: "Filling Material", key: "fillingMaterial" },
