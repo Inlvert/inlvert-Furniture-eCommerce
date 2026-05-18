@@ -47,11 +47,32 @@ export default function CompareTable() {
   };
 
   const value = (item: any, key: string, type: string) => {
+    const currentValue = item[key];
+    if (typeof currentValue === "boolean") {
+      return currentValue ? "Yes" : "No";
+    }
+
+    if (
+      key === "height" ||
+      key === "width" ||
+      key === "depth" ||
+      key === "seatHeight" ||
+      key === "legHeight" ||
+      key === "maximumLoadCapacity" ||
+      key === "weight"
+    ) {
+      if (key === "maximumLoadCapacity" || key === "weight") {
+        return `${item[key] ?? 0} KG`;
+      }
+      return `${item[key] ?? 0} sm`;
+    }
     if (type === "section") return "";
     if (key === "price") return `$${item.price}`;
     if (key === "averageRating") return `⭐ ${item.averageRating ?? 0}`;
     if (key === "warrantySummary")
       return `${item.warrantySummary ?? 0} Year Manufacturing Warranty`;
+    if (key ==="domesticWarranty")
+      return `${item.domesticWarranty ?? 0} months`;
     if (key === "button")
       return (
         <ButtonAddToCart
@@ -85,13 +106,20 @@ export default function CompareTable() {
         ))}
 
         {rows.map((row, i) => {
-          // if ((row as any).type === "section") {
-          //   return (
-          //     <div key={i} className={styles.section}>
-          //       {row.label}
-          //     </div>
-          //   );
-          // }
+          if (row.type === "section") {
+            return (
+              <React.Fragment key={i}>
+                <div className={styles.section}>{row.label}</div>
+
+                {items.map((item) => (
+                  <div
+                    key={item._id + row.label}
+                    className={styles.sectionSpacer}
+                  />
+                ))}
+              </React.Fragment>
+            );
+          }
 
           return (
             <React.Fragment key={`${row.key}-${i}`}>
@@ -99,7 +127,7 @@ export default function CompareTable() {
 
               {items.map((item) => (
                 <div key={item._id + row.key} className={styles.value}>
-                  {value(item, row.key!, row.type!)}
+                  <div>{value(item, row.key!, row.type!)}</div>
                 </div>
               ))}
             </React.Fragment>
