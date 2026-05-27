@@ -26,6 +26,9 @@ export class Product {
   @Prop({ default: [] })
   images!: string[];
 
+  @Prop({ default: [] })
+  additionalImages!: string[];
+
   @Prop()
   sizes!: string[];
 
