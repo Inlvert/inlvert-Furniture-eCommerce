@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Product, ProductDocument } from './schema/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginatedProductsDto } from './dto/paginate-product.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class ProductsService {
@@ -14,10 +20,12 @@ export class ProductsService {
   async create(
     createProductDto: CreateProductDto,
     files: Express.Multer.File[],
+    additionalFiles: Express.Multer.File[],
   ): Promise<ProductDocument> {
     const newProduct = new this.productModel({
       ...createProductDto,
       images: files.map((file) => file.filename),
+      additionalImages: additionalFiles.map((file) => file.filename),
     });
     return newProduct.save();
   }
@@ -62,6 +70,79 @@ export class ProductsService {
       })
       .lean()
       .exec();
+
+    console.log(product);
+
+    return product;
+  }
+
+  async update(
+    id: string,
+    updateProductDto: CreateProductDto,
+    files: Express.Multer.File[] = [],
+    additionalFiles: Express.Multer.File[] = [],
+  ): Promise<ProductDocument> {
+    if (updateProductDto.sku) {
+      const existingProduct = await this.productModel.findOne({
+        sku: updateProductDto.sku,
+        _id: { $ne: id },
+      });
+
+      if (existingProduct) {
+        throw new BadRequestException('SKU already exists');
+      }
+    }
+
+    const currentProduct = await this.productModel.findById(id);
+
+    if (!currentProduct) {
+      throw new NotFoundException('Product not found');
+    }
+
+    const updatedData: any = {
+      ...updateProductDto,
+    };
+
+    if (files.length > 0) {
+      updatedData.images = files.map((file) => file.filename);
+    }
+
+    if (additionalFiles.length > 0) {
+      updatedData.additionalImages = additionalFiles.map(
+        (file) => file.filename,
+      );
+    }
+
+    const updatedProduct = await this.productModel.findByIdAndUpdate(
+      id,
+      updatedData,
+      { new: true },
+    );
+
+    return updatedProduct!;
+  }
+
+  async remove(id: string): Promise<ProductDocument> {
+    const product = await this.productModel.findById(id);
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    const allImages = [
+      ...(product.images || []),
+      ...(product.additionalImages || []),
+    ];
+
+    for (const img of allImages) {
+      const filePath = path.join(process.cwd(), 'public', 'images', img);
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    await this.productModel.findByIdAndDelete(id);
 
     console.log(product);
 
