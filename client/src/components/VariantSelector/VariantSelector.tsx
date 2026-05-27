@@ -10,7 +10,7 @@ type Props = {
 };
 
 const defaultSizes = ["S", "M", "L"];
-const defaultColors = ["#6c5ce7", "#000000", "#c49a2c"];
+const defaultColors = ["#b8b8b8", "#d6cea1", "#e0ceb0", "#8cb5d6"];
 
 export default function VariantSelector({ sizes, colors, onChange }: Props) {
   const sizeList = sizes?.length ? sizes : defaultSizes;
