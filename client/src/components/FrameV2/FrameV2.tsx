@@ -15,18 +15,12 @@ export default function FrameV2({ title }: FrameProps) {
 
   const productId = segments[1];
 
-  const product = useAppSelector((state) =>
-    state.products.items?.find((item) => item._id === productId),
-  );
-
-  const titleName = product?.name || "Product Details";
+  const titleName = title || "Product Details";
 
   console.log("Title from Redux:", titleName);
   return (
     <section className={styles.frame}>
       <div className={styles.content}>
-        {title && <h1 className={styles.title}>{title}</h1>}
-
         <nav className={styles.breadcrumbs}>
           <Link href="/" className={styles.link}>
             Home
@@ -37,7 +31,7 @@ export default function FrameV2({ title }: FrameProps) {
             const isLast = index === segments.length - 1;
 
             const label =
-              isLast && product
+              isLast && productId === segment
                 ? titleName
                 : segment.charAt(0).toUpperCase() + segment.slice(1);
 
