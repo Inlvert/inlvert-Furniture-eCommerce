@@ -16,6 +16,12 @@ export class CreateProductDto {
   @IsString({ each: true })
   readonly images!: string[];
 
+  @IsString({ each: true })
+  readonly additionalImages!: string[];
+
   @IsNumber()
   readonly stock!: number;
+
+  @IsString()
+  sku!: string;
 }
