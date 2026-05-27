@@ -13,27 +13,29 @@ import Rating from "../Rating/Rating";
 import ReviewsForm from "../ReviewsForm/ReviewsForm";
 import ReviewsList from "../ReviewsList/ReviewsList";
 import { showPreview } from "@/redux/slices/cartPreviewSlice";
+import { Product } from "@/types/product.type";
 
-type Product = {
-  _id: string;
-  name: string;
-  description: string;
-  smallDescription: string;
-  price: number;
-  images?: string[];
-  category: string;
-  sizes?: string[];
-  colors?: string[];
-  sku?: string;
-  stock?: number;
-  tags?: string[];
-  averageRating?: number;
-};
+// type Product = {
+//   _id: string;
+//   name: string;
+//   description: string;
+//   smallDescription: string;
+//   price: number;
+//   images?: string[];
+//   additionalImages?: string[];
+//   category: string;
+//   sizes?: string[];
+//   colors?: string[];
+//   sku?: string;
+//   stock?: number;
+//   tags?: string[];
+//   averageRating?: number;
+// };
 
 export default function ProductDetailsView({ product }: { product: Product }) {
   const images = product.images?.length
     ? product.images.map(
-        (img) => `http://localhost:5000/images/${encodeURIComponent(img)}`,
+        (img) => `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(img)}`,
       )
     : [placeholderImg.src];
 
@@ -133,13 +135,23 @@ export default function ProductDetailsView({ product }: { product: Product }) {
         ]}
       />
       <div className={styles.imageContainer}>
-        <img
+        {/* <img
           src="/images/Cloud sofa three seater + ottoman_2_1.png"
           alt=""
           className={styles.imageBG}
         />
         <img
           src="/images/Cloud sofa three seater + ottoman_1_1.png"
+          alt=""
+          className={styles.imageBG}
+        /> */}
+        <img
+          src={`${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.additionalImages?.[0] || "")}`}
+          alt=""
+          className={styles.imageBG}
+        />
+        <img
+          src={`${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.additionalImages?.[1] || "")}`}
           alt=""
           className={styles.imageBG}
         />
