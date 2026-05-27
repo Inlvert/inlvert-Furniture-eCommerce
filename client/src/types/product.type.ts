@@ -18,4 +18,10 @@ export type Product = {
   averageRating?: number;
   reviewsCount?: number;
   images?: string[];
+  additionalImages?: string[];
+  description: string;
+  smallDescription: string;
+  sizes?: string[];
+  colors?: string[];
+  tags?: string[];
 };
