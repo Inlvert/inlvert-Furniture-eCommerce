@@ -8,7 +8,7 @@ import ProductListWithOutPaginate from "@/components/ProductListWithOutPaginate/
 import router from "next/dist/shared/lib/router/router";
 
 async function getProduct(id: string) {
-  const res = await fetch(`http://localhost:5000/products/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
     cache: "no-store",
   });
 
@@ -20,16 +20,18 @@ async function getProduct(id: string) {
 export default async function ProductDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
-  const product = await getProduct(id);
+  const resolvedParams = await params;
+  const product = await getProduct(resolvedParams.id);
+
+  // console.log(product);
   
 
   return (
     <div className="flex items-center  flex-col">
       <Navbar />
-      <FrameV2 title={product.title} />
+      <FrameV2 title={product.name} />
       <ProductDetailsView product={product} />
       <ProductListWithOutPaginate title="Related Products" />
       <Footer />
