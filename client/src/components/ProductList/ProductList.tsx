@@ -9,24 +9,24 @@ import { getProducts } from "@/redux/slices/productSlice";
 interface ProductListProps {
   limit?: number;
   withPagination?: boolean;
+  sort: string | null;
 }
 
 export default function ProductList({
-  limit = 8,
   withPagination = false,
 }: ProductListProps) {
   const dispatch = useAppDispatch();
 
-  const { items, loading, error, page, totalPages } = useAppSelector(
+  const { items, loading, error, page, totalPages, sort, limit } = useAppSelector(
     (state) => state.products
   );
 
-  useEffect(() => {
-    dispatch(getProducts({ page, limit }));
-  }, [dispatch, page, limit]);
+  // useEffect(() => {
+  //   dispatch(getProducts({ page, limit }));
+  // }, [dispatch, page, limit]);
 
   const handlePageClick = (newPage: number) => {
-    dispatch(getProducts({ page: newPage, limit }));
+    dispatch(getProducts({ page: newPage, limit, sort: sort || "date-desc" }));
   };
 
   if (loading) return <div>Loading...</div>;
