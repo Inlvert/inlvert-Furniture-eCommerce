@@ -5,7 +5,7 @@ import axios from "axios";
 import { date } from "yup";
 
 const httpClient = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000",
 });
 
 export interface LoginDto {
@@ -56,9 +56,15 @@ httpClient.interceptors.response.use(
   },
 );
 
-export const getProducts = async (page: number, limit: number) => {
+export const getProducts = async (
+  page: number,
+  limit: number,
+  sort?: string,
+  search?: string,
+  configuration?: string,
+) => {
   const response = await httpClient.get("/products", {
-    params: { page, limit },
+    params: { page, limit, sort, search, configuration },
   });
   console.log("getProducts response:", response.data);
   return response.data;
