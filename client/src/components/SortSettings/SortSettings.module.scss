@@ -1,0 +1,129 @@
+.frame {
+  background-color: #fff3e3;
+  color: #333;
+  max-width: 1440px;
+  width: 100%;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+  position: relative;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filterContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.line {
+  width: 1px;
+  height: 30px;
+  background: #333;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.input{
+  padding: 6px 10px;
+  background: #fff;
+  max-width: 60px;
+}
+
+.searchInput {
+  padding: 6px 10px;
+  // background: #fff;
+  width: 230px;
+  border: 2px solid #ccc;
+}
+
+
+.select {
+  padding: 6px 10px;
+  background: #fff;
+  // min-width: 100px;
+  width: fit-content;
+}
+
+.selectConfig {
+  padding: 6px 10px;
+  background: #fff;
+  width: 230px;
+  border: 2px solid #ccc;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.25s ease;
+  z-index: 999;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 280px;
+  height: 100vh;
+
+  background: #fff;
+  z-index: 1000;
+
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 100px 20px 20px;
+}
+
+.mobileMenu a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.mobileMenuLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1.2rem;
+  font-weight: 500;
+  gap: 10px;
+}
