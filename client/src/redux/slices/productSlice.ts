@@ -94,7 +94,6 @@
 
 // export default productReducer;
 
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as API from "@/api/index";
 import { Product } from "@/types/product.type";
@@ -108,6 +107,10 @@ interface ProductsState {
   totalPages: number;
   loading: boolean;
   error: string | null;
+  sort: string | null;
+  limit: number;
+  search?: string;
+  configuration?: string;
 }
 
 const initialState: ProductsState = {
@@ -117,20 +120,27 @@ const initialState: ProductsState = {
   totalPages: 1,
   loading: false,
   error: null,
+  sort: "date-desc",
+  limit: 8,
+  search: undefined,
+  configuration: undefined,
 };
-
-// -------------------- PRODUCTS --------------------
 
 export const getProducts = createAsyncThunk(
   `${SLICE_NAME}/getProducts`,
-  async ({ page, limit }: { page: number; limit: number }, thunkAPI) => {
+  async (
+    { page, limit, sort = "date-desc", search, configuration }: { page: number; limit: number; sort?: string; search?: string; configuration?: string },
+    thunkAPI,
+  ) => {
     try {
-      const data = await API.getProducts(page, limit);
+      const data = await API.getProducts(page, limit, sort || undefined, search, configuration);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message || "Failed to fetch products");
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to fetch products",
+      );
     }
-  }
+  },
 );
 
 export const getOneProduct = createAsyncThunk(
@@ -140,26 +150,34 @@ export const getOneProduct = createAsyncThunk(
       const data = await API.getOneProduct(productId);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message || "Failed to fetch product");
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to fetch product",
+      );
     }
-  }
+  },
 );
 
-// -------------------- CART --------------------
 
 export const addProductToCart = createAsyncThunk(
   `${SLICE_NAME}/addProductToCart`,
   async (
-    { productId, quantity, color, size }: { productId: string; quantity: number; color?: string; size?: string },
-    thunkAPI
+    {
+      productId,
+      quantity,
+      color,
+      size,
+    }: { productId: string; quantity: number; color?: string; size?: string },
+    thunkAPI,
   ) => {
     try {
       const data = await API.addProductToCart(productId, quantity, color, size);
-      return data; // expect cart with items & total
+      return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error?.response?.data?.message || "Failed to add product to cart");
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to add product to cart",
+      );
     }
-  }
+  },
 );
 
 export const getProductsInCart = createAsyncThunk(
@@ -169,21 +187,28 @@ export const getProductsInCart = createAsyncThunk(
       const data = await API.getProductsInCart();
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error?.response?.data?.message || "Failed to fetch cart products");
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to fetch cart products",
+      );
     }
-  }
+  },
 );
 
 export const updateCartProductQuantity = createAsyncThunk(
   `${SLICE_NAME}/updateCartProductQuantity`,
-  async ({ productId, quantity }: { productId: string; quantity: number }, thunkAPI) => {
+  async (
+    { productId, quantity }: { productId: string; quantity: number },
+    thunkAPI,
+  ) => {
     try {
       const data = await API.updateCartProductQuantity(productId, quantity);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error?.response?.data?.message || "Failed to update quantity");
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to update quantity",
+      );
     }
-  }
+  },
 );
 
 export const removeProductFromCart = createAsyncThunk(
@@ -193,9 +218,11 @@ export const removeProductFromCart = createAsyncThunk(
       const data = await API.removeProductFromCart(productId);
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error?.response?.data?.message || "Failed to remove product");
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to remove product",
+      );
     }
-  }
+  },
 );
 
 export const clearCart = createAsyncThunk(
@@ -205,12 +232,13 @@ export const clearCart = createAsyncThunk(
       const data = await API.clearCart();
       return data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error?.response?.data?.message || "Failed to clear cart");
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to clear cart",
+      );
     }
-  }
+  },
 );
 
-// -------------------- SLICE --------------------
 
 const productSlice = createSlice({
   name: SLICE_NAME,
@@ -218,6 +246,12 @@ const productSlice = createSlice({
   reducers: {
     setPage(state, action) {
       state.page = action.payload;
+    },
+    setSearch(state, action) {
+      state.search = action.payload;
+    },
+    setConfiguration(state, action) {
+      state.configuration = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -232,6 +266,10 @@ const productSlice = createSlice({
       state.total = action.payload.total;
       state.page = action.payload.page;
       state.totalPages = action.payload.totalPages;
+      state.sort = action.meta.arg.sort || "date-desc";
+      state.limit = action.meta.arg.limit || 8;
+      state.search = action.meta.arg.search;
+      state.configuration = action.meta.arg.configuration;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.loading = false;
