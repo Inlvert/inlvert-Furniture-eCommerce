@@ -33,15 +33,68 @@ export class ProductsService {
   async findAll(
     page: number = 1,
     limit: number = 16,
+    sort?: string,
+    search?: string,
+    configuration?: string,
   ): Promise<PaginatedProductsDto> {
     const skip = (page - 1) * limit;
 
-    const [items, total] = await Promise.all([
-      this.productModel.find().skip(skip).limit(limit).exec(),
-      this.productModel.countDocuments().exec(),
-    ]);
+    let sortQuery = {};
 
-    const totalPages = Math.ceil(total / limit);
+    switch (sort) {
+      case 'name-asc':
+        sortQuery = { name: 1 };
+        break;
+
+      case 'name-desc':
+        sortQuery = { name: -1 };
+        break;
+
+      case 'date-asc':
+        sortQuery = { createdAt: 1 };
+        break;
+
+      case 'date-desc':
+        sortQuery = { createdAt: -1 };
+        break;
+
+      case 'price-asc':
+        sortQuery = { price: 1 };
+        break;
+
+      case 'price-desc':
+        sortQuery = { price: -1 };
+        break;
+
+      default:
+        sortQuery = { createdAt: -1 };
+    }
+
+    const filter: any = {};
+
+    if (search && search.trim().length >= 2) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { sku: { $regex: search, $options: 'i' } },
+        { category: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    if (configuration && configuration.trim().length > 0) {
+      filter.configuration = configuration;
+    }
+
+    const [items, total] = await Promise.all([
+      this.productModel
+        .find(filter)
+        .sort(sortQuery)
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+
+      this.productModel.countDocuments(filter).exec(),
+    ]);
 
     return {
       items,
