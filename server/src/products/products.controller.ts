@@ -52,10 +52,19 @@ export class ProductsController {
   findAll(
     @Query('page') page: string,
     @Query('limit') limit: string,
+    @Query('sort') sort?: string,
+    @Query('search') search?: string,
+    @Query('configuration') configuration?: string
   ): Promise<PaginatedProductsDto> {
+
+    // console.log("sort", sort);
+    // console.log("page", page);
+    // console.log("limit", limit);
+    // console.log("search", search);
+    // console.log("configuration", configuration);
     const pageNum = parseInt(page) || 1;
     const limitNum = parseInt(limit) || 16;
-    return this.productsService.findAll(pageNum, limitNum);
+    return this.productsService.findAll(pageNum, limitNum, sort, search, configuration);
   }
 
   @Get(':id')
