@@ -24,4 +24,5 @@ export type Product = {
   sizes?: string[];
   colors?: string[];
   tags?: string[];
+  configuration?: string[];
 };
