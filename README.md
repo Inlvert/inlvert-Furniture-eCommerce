@@ -50,6 +50,7 @@ A full-stack furniture eCommerce application built with **Next.js**, **NestJS**,
 
 ## Project Structure
 
+```
 client/
 ├── src/
 │   ├── app/
@@ -66,6 +67,7 @@ server/
 │   ├── users/
 │   ├── uploads/
 │   └── common/
+```
 
 ---
 
