@@ -35,10 +35,12 @@ export default function SortSettings() {
     { value: "1-Seater", label: "1-Seater" },
     { value: "2-Seater", label: "2-Seater" },
     { value: "3-Seater", label: "3-Seater" },
-  ]
+  ];
 
   useEffect(() => {
-    dispatch(getProducts({ page: 1, limit: count, sort, search, configuration }));
+    dispatch(
+      getProducts({ page: 1, limit: count, sort, search, configuration }),
+    );
   }, [dispatch, count, sort, search, configuration]);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,40 +71,42 @@ export default function SortSettings() {
 
       {/* SETTINGS */}
       <div className={styles.settings}>
-        <label>
-          Show
-          <input
-            type="number"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onBlur={() => setCount(Number(inputValue))}
-            className={styles.input}
-          />
-        </label>
-
-        <label>
-          Sort by
-          <select
-            onChange={handleSortChange}
-            value={sort}
-            className={styles.select}
-          >
-            {sortOptions.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div>
+          <label>
+            Show
+            <input
+              type="number"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onBlur={() => setCount(Number(inputValue))}
+              className={styles.input}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Sort by
+            <select
+              onChange={handleSortChange}
+              value={sort}
+              className={styles.select}
+            >
+              {sortOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
       </div>
 
-      {/* OVERLAY (ALWAYS EXISTS → NO SHIFT) */}
       <div
         className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ""}`}
         onClick={toggleMenu}
       />
 
-      {/* MOBILE MENU (ALWAYS IN DOM) */}
+      {/* MOBILE MENU */}
       <nav className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
         <input
           type="text"

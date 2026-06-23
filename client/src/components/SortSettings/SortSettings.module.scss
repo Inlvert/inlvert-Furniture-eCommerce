@@ -11,12 +11,25 @@
 
   padding: 0 20px;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    height: 80px;
+    padding: 0 10px;
+    flex-direction: column;
+    height: auto;
+    padding: 20px 0;
+    gap: 10px;
+  }
 }
 
 .filter {
   display: flex;
   align-items: center;
   gap: 20px;
+
+  @media screen and (max-width: 410px) {
+    flex-direction: column;
+  }
 }
 
 .filterContainer {
@@ -35,12 +48,21 @@
   width: 1px;
   height: 30px;
   background: #333;
+
+  @media screen and (max-width: 410px) {
+    display: none;
+  }
 }
 
 .settings {
   display: flex;
   align-items: center;
+  flex-direction: row;
   gap: 20px;
+
+  @media screen and (max-width: 410px) {
+    flex-direction: column;
+  }
 }
 
 .input{
