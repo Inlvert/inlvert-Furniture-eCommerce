@@ -1,6 +1,7 @@
 "use client";
 import Subscribe from "../Subscribe/Subscribe";
 import styles from "./Footer.module.scss";
+import Link from "next/link";
 
 export default function Footer() {
   const address = "400 University Drive Suite 200\nCoral Gables, FL 33134\nUSA";
@@ -9,7 +10,9 @@ export default function Footer() {
     <div className={styles.wrapper}>
       <div className={styles.position}>
         <div>
-          <h1 className={styles.logoText}>Funiro.</h1>
+          <Link href="/" className={styles.link}>
+            <h1 className={styles.logoText}>Funiro.</h1>
+          </Link>
           <p className={styles.pText}>{address}</p>
         </div>
         <div>
