@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "cd client && npm install && npm run build && cd ../server && npm install && npm run build",
-    "start": "concurrently \"cd server && npm run start:prod\" \"cd client && npm start\""
+    "start": "concurrently \"cd server && npm run start:prod\" \"cd client && npm start\"",
+    "start:prod": "cd server && node dist/main"
   }
 }
