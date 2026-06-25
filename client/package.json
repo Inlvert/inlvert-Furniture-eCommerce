@@ -15,7 +15,7 @@
     "axios": "^1.13.2",
     "classnames": "^2.5.1",
     "formik": "^2.4.9",
-    "next": "15.5.5",
+    "next": "^15.5.19",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-redux": "^9.2.0",
