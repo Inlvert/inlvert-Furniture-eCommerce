@@ -8,7 +8,7 @@ import ProductListWithOutPaginate from "@/components/ProductListWithOutPaginate/
 import router from "next/dist/shared/lib/router/router";
 
 async function getProduct(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${id}`, {
     cache: "no-store",
   });
 

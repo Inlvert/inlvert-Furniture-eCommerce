@@ -62,7 +62,7 @@ export default function CartPreview() {
             if (!product) return null;
 
             const img = product.images?.[0]
-              ? `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.images[0])}`
+              ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(product.images[0])}`
               : "/placeholder.png";
 
             return (

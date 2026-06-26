@@ -15,7 +15,7 @@ export default function CompareItem({
 }: Props & { handleRemoveFromCompare: (id: string) => void }) {
   const imageSrc =
     Array.isArray(item.images) && item.images.length > 0
-      ? `http://localhost:5000/images/${encodeURIComponent(item.images[0])}`
+      ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(item.images[0])}`
       : placeholderImg.src;
 
   return (

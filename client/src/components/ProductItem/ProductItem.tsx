@@ -45,7 +45,7 @@ export default function ProductItem({ product }: { product: Product }) {
   // }
 
   const imageSrc = product.images?.length
-    ? `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.images[0])}`
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(product.images[0])}`
     : placeholderImg.src;
 
   return (

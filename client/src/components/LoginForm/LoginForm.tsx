@@ -39,7 +39,7 @@ export default function LoginForm() {
   };
 
   const loginWithGoogle = () => {
-    window.location.href = "http://localhost:5000/auth/google/callback";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google/callback`;
     // `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
 

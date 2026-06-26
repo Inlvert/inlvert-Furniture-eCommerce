@@ -35,7 +35,7 @@ import { Product } from "@/types/product.type";
 export default function ProductDetailsView({ product }: { product: Product }) {
   const images = product.images?.length
     ? product.images.map(
-        (img) => `${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(img)}`,
+        (img) => `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(img)}`,
       )
     : [placeholderImg.src];
 
@@ -146,12 +146,12 @@ export default function ProductDetailsView({ product }: { product: Product }) {
           className={styles.imageBG}
         /> */}
         <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.additionalImages?.[0] || "")}`}
+          src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(product.additionalImages?.[0] || "")}`}
           alt=""
           className={styles.imageBG}
         />
         <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/images/${encodeURIComponent(product.additionalImages?.[1] || "")}`}
+          src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${encodeURIComponent(product.additionalImages?.[1] || "")}`}
           alt=""
           className={styles.imageBG}
         />

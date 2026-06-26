@@ -50,7 +50,7 @@ export default function CartList() {
           if (!item.productId) return null;
 
           const img = item.productId.images?.[0]
-            ? `http://localhost:5000/images/${item.productId.images[0]}`
+            ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/${item.productId.images[0]}`
             : "/placeholder.png";
 
           const subtotal = (item.productId.price || 0) * (item.quantity || 0);
