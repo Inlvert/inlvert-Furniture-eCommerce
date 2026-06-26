@@ -11,6 +11,8 @@ async function getProduct(id: string) {
       { cache: "no-store" },
     );
 
+    console.log("API:", process.env.NEXT_PUBLIC_API_BASE_URL);
+
     if (!res.ok) return null;
 
     return await res.json();
