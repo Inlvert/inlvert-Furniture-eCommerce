@@ -16,6 +16,9 @@ import { WebhookModule } from './webhook/webhook.module';
 import { MailsController } from './mails/mails.controller';
 import { MailsService } from './mails/mails.service';
 import { MailsModule } from './mails/mails.module';
+import { HealthModule } from './health/health.module';
+import { HealthController } from './health/health.controller';
+import { HealthService } from './health/health.service';
 
 
 
@@ -39,8 +42,9 @@ import { MailsModule } from './mails/mails.module';
     PaymentsModule,
     WebhookModule,
     MailsModule,
+    HealthModule,
   ],
-  controllers: [AppController, ProductsController, MailsController],
-  providers: [AppService],
+  controllers: [AppController, ProductsController, MailsController, HealthController],
+  providers: [AppService, HealthService],
 })
 export class AppModule {}
