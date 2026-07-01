@@ -222,3 +222,13 @@ export const sendMessage = async (messageData: {
     throw new Error(error?.response?.data?.message || "Failed to send message");
   }
 };
+
+export const checkHealthServer = async () => {
+  try {
+    
+    const response = await httpClient.get(`/health`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to check server health");
+  }
+};
